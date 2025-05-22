@@ -3,6 +3,7 @@ import axios from 'axios'
 import * as cheerio from 'cheerio';
 import './App.css';
 import HouseCard from '../../components/HouseCard/HouseCard';
+// const jmespath = require('jmespath');
 // import { houses } from '../../houses.js';
 
 const urls = [
@@ -30,17 +31,26 @@ useEffect(() => {
         const houseData = dataArray.map((html) => {
           const $ = cheerio.load(html);
           const housesFromTag = $("script[id='__NEXT_DATA__']").text();
-          // console.log('housesFromTag',housesFromTag)
           return housesFromTag
         })
 
-        const parsedHouses = houseData.map((house) => JSON.parse(house))
-        
-        // const $ = cheerio.load(data);
-        
+        const parsedHouses = houseData
+          .map((house) => JSON.parse(house)) 
+          .map((item) => {
+            console.log(item.props.pageProps.componentProps)
+            const listingSummary = item.props.pageProps.componentProps.listingSummary
+            return {
+              address: listingSummary.address,
+              // add more items. Ex. id: listingSummary.id
+            }
+          })
+      
         console.log(parsedHouses)
-        const houses = setListOfHouses(parsedHouses)
-        console.log('houses: ',houses)
+        // const result = jmespath.search(houseData, "{*}.props.pageProps.componentProps.listingSummary.address")
+        // console.log(result)
+                       
+        // Need to slim down domain data object, then set that list
+        // setListOfHouses(parsedHouses)
     }
 
     getHouses()
@@ -50,7 +60,7 @@ useEffect(() => {
     <div className="App">
       <header className="App-header">
         <div className="house-list">
-          {/* { houses.map((house) => <HouseCard house={house} key={house.id} /> )} */}
+          {/* { listOfHouses.map((house) => <HouseCard house={house} key={house.id} /> )} */}
         </div>
       </header>
     </div>
