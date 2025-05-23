@@ -42,7 +42,18 @@ useEffect(() => {
             const rootGraphQuery = item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2
             const inspection = item.props.pageProps.componentProps.inspection
             const suburb = item.props.pageProps.componentProps.suburb
+            const listingId = item.props.pageProps.componentProps.listingId
+            const userNotes = {
+              tram: '',
+              train: '',
+              balcony: '',
+              supermarket: [],
+              s32: false,
+              comments: [],
+              preference: null
+            }
             return {
+              id: listingId,
               address: listingSummary.address,
               suburb: suburb,
               baths: listingSummary.baths,
@@ -56,7 +67,8 @@ useEffect(() => {
               propertyPhoto: rootGraphQuery.smallMedia[0].url,
               inspectionBoolean: inspection.appointmentOnly,
               // array .openingDateTime, .closingDateTime and .time
-              inspectionSchedule: inspection.inspectionTimes
+              inspectionSchedule: inspection.inspectionTimes,
+              userNotes: userNotes
             }
           })
       
