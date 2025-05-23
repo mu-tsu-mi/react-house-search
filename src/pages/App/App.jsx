@@ -37,20 +37,34 @@ useEffect(() => {
         const parsedHouses = houseData
           .map((house) => JSON.parse(house)) 
           .map((item) => {
-            console.log(item.props.pageProps.componentProps)
+            console.log('domain props: ',item.props.pageProps.componentProps)
             const listingSummary = item.props.pageProps.componentProps.listingSummary
+            const rootGraphQuery = item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2
+            const inspection = item.props.pageProps.componentProps.inspection
+            const suburb = item.props.pageProps.componentProps.suburb
             return {
               address: listingSummary.address,
-              // add more items. Ex. id: listingSummary.id
+              suburb: suburb,
+              baths: listingSummary.baths,
+              beds: listingSummary.beds,
+              parking: listingSummary.parking,
+              saleType: rootGraphQuery.saleMethod,
+              propertyType: rootGraphQuery.propertyTypes[0],
+              lowestPrice: rootGraphQuery.priceDetails.rawValues.from,
+              highestPrice: rootGraphQuery.priceDetails.rawValues.to,
+              singlePrice: rootGraphQuery.priceDetails.rawValues.exactPriceV2,
+              propertyPhoto: rootGraphQuery.smallMedia[0].url,
+              inspectionBoolean: inspection.appointmentOnly,
+              // array .openingDateTime, .closingDateTime and .time
+              inspectionSchedule: inspection.inspectionTimes
             }
           })
       
         console.log(parsedHouses)
         // const result = jmespath.search(houseData, "{*}.props.pageProps.componentProps.listingSummary.address")
         // console.log(result)
-                       
-        // Need to slim down domain data object, then set that list
-        // setListOfHouses(parsedHouses)
+        
+        setListOfHouses(parsedHouses)
     }
 
     getHouses()
@@ -60,7 +74,7 @@ useEffect(() => {
     <div className="App">
       <header className="App-header">
         <div className="house-list">
-          {/* { listOfHouses.map((house) => <HouseCard house={house} key={house.id} /> )} */}
+          { listOfHouses.map((house) => <HouseCard house={house} key={house.id} /> )}
         </div>
       </header>
     </div>

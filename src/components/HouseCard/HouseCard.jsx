@@ -9,7 +9,7 @@ export default function HouseCard({house}) {
                     <p>{house.address}</p>
                     <p>${house.lowestPrice}~{house.highestPrice}</p>
                     <p>Sale Type: {house.saleType}</p>
-                    <img src={house.houseImage}/>
+                    <img src={house.propertyPhoto}/>
                 </form>
             </div>
         </>
