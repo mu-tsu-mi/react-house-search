@@ -1,3 +1,4 @@
+import './HouseCard.css';
 
 export default function HouseCard({house}) {
 let propertyType;
@@ -25,6 +26,7 @@ const price = (pr, low, high) => {
         return (<p>${pr.toLocaleString()}</p>)
     }
 }
+const sch = house.privateInspectionBoolean ? null : house.inspectionSchedule[0]
 
     return(
         <>
@@ -35,14 +37,19 @@ const price = (pr, low, high) => {
                     {price(house.singlePrice, house.lowestPrice, house.highestPrice)}
                     <p>Sale Type: {house.saleType}</p>
                     <div>
-                        {/* svg icon */}
-                        <span>Bedroom: {house.beds}</span>
-                        <span>Bathroom: {house.baths}</span>
-                        <span>Parking: {house.parking}</span>
+                        <img src="/images/bed-1179855.png" alt="bed" className="spec" /><span>{house.beds}</span>
+                        <img src="/images/bathtub-7902075.png" alt="bath" className="spec" /><span>{house.baths}</span>
+                        <span><img src="/images/car-7897277.png" alt="car" className="spec" />{house.parking}</span>
                     </div>
                     <img src={house.propertyPhoto}/>
                     {/* user notes */}
-                    <p></p>
+                    <div>
+                        <img src="/images/magnifying-glass.png" alt="magnifying-glass" className="magnifying-glass" />
+                        <span>{house.privateInspectionBoolean
+                              ? 'Book a private inspection.'
+                              : `${sch.dayOfWeek} ${sch.day} ${sch.month}`}
+                        </span>
+                    </div>
                 </form>
             </div>
         </>

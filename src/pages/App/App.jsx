@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import axios from 'axios'
 import * as cheerio from 'cheerio';
 import './App.css';
+import {domainHouses} from '../../domain-houses';
 import HouseCard from '../../components/HouseCard/HouseCard';
 // const jmespath = require('jmespath');
 // import { houses } from '../../houses.js';
@@ -22,27 +23,36 @@ const [ listOfHouses, setListOfHouses ] = useState([]);
 useEffect(() => {
     const getHouses = async () => {
       // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        const responses = await Promise.all(
-          urls.map((url) => axios.get(proxyUrl + url))
-        );
-        const dataArray = responses.map(res => res.data);
+        // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        // const responses = await Promise.all(
+        //   urls.map((url) => axios.get(proxyUrl + url))
+        // );
+        // const dataArray = responses.map(res => res.data);
 
-        const houseData = dataArray.map((html) => {
-          const $ = cheerio.load(html);
-          const housesFromTag = $("script[id='__NEXT_DATA__']").text();
-          return housesFromTag
-        })
+        // const houseData = dataArray.map((html) => {
+        //   const $ = cheerio.load(html);
+        //   const housesFromTag = $("script[id='__NEXT_DATA__']").text();
+        //   return housesFromTag
+        // })
 
+        const houseData = domainHouses
         const parsedHouses = houseData
-          .map((house) => JSON.parse(house)) 
-          .map((item) => {
-            console.log('domain props: ',item.props.pageProps.componentProps)
-            const listingSummary = item.props.pageProps.componentProps.listingSummary
-            const rootGraphQuery = item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2
-            const inspection = item.props.pageProps.componentProps.inspection
-            const suburb = item.props.pageProps.componentProps.suburb
-            const listingId = item.props.pageProps.componentProps.listingId
+          .map((house) => {
+          // .map((house) => JSON.parse(house))
+          // .map((item) => {
+          //   console.log('domain props: ',item.props.pageProps.componentProps)
+          //   const listingSummary = item.props.pageProps.componentProps.listingSummary
+          //   const rootGraphQuery = item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2
+          //   const inspection = item.props.pageProps.componentProps.inspection
+          //   const suburb = item.props.pageProps.componentProps.suburb
+          //   const listingId = item.props.pageProps.componentProps.listingId
+
+            // temporary houses data to reduce request
+            const listingSummary = house.listingSummary
+            const rootGraphQuery = house.rootGraphQuery.listingByIdV2
+            const inspection = house.inspection
+            const suburb = house.suburb
+            const listingId = house.listingId
             const userNotes = {
               tram: '',
               train: '',
@@ -65,7 +75,7 @@ useEffect(() => {
               highestPrice: rootGraphQuery.priceDetails.rawValues.to,
               singlePrice: rootGraphQuery.priceDetails.rawValues.exactPriceV2,
               propertyPhoto: rootGraphQuery.smallMedia[0].url,
-              inspectionBoolean: inspection.appointmentOnly,
+              privateInspectionBoolean: inspection.appointmentOnly,
               // array .openingDateTime, .closingDateTime and .time
               inspectionSchedule: inspection.inspectionTimes,
               userNotes: userNotes

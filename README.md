@@ -78,3 +78,6 @@ https://thenounproject.com/icon/tram-7874988/
 https://thenounproject.com/icon/smile-864201/
 https://thenounproject.com/icon/shopping-cart-6331329/
 https://thenounproject.com/icon/magnifying-glass-7814369/
+https://thenounproject.com/icon/bed-1179855/
+https://thenounproject.com/icon/bathtub-7902075/
+https://thenounproject.com/icon/car-7897277/
