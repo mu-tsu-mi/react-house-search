@@ -1,4 +1,5 @@
 import './HouseCard.css';
+import UserNotes from '../UserNotes/UserNotes';
 
 export default function HouseCard({house}) {
 let propertyType;
@@ -42,7 +43,7 @@ const sch = house.privateInspectionBoolean ? null : house.inspectionSchedule[0]
                         <span><img src="/images/car-7897277.png" alt="car" className="spec" />{house.parking}</span>
                     </div>
                     <img src={house.propertyPhoto}/>
-                    {/* user notes */}
+                    <UserNotes />
                     <div>
                         <img src="/images/magnifying-glass.png" alt="magnifying-glass" className="magnifying-glass" />
                         <span>{house.privateInspectionBoolean
