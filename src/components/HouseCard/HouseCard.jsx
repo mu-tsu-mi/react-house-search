@@ -1,7 +1,7 @@
 import './HouseCard.css';
 import UserNotes from '../UserNotes/UserNotes';
 
-export default function HouseCard({house}) {
+export default function HouseCard({house, onSaveNotes}) {
 let propertyType;
 switch(house.propertyType) {
     case 'APARTMENT_UNIT_FLAT':
@@ -28,7 +28,6 @@ const price = (pr, low, high) => {
     }
 }
 const sch = house.privateInspectionBoolean ? null : house.inspectionSchedule[0]
-
     return(
         <>
             <div className='house-card-wrapper'>
@@ -43,7 +42,7 @@ const sch = house.privateInspectionBoolean ? null : house.inspectionSchedule[0]
                         <span><img src="/images/car-7897277.png" alt="car" className="spec" />{house.parking}</span>
                     </div>
                     <img src={house.propertyPhoto}/>
-                    <UserNotes />
+                    <UserNotes house={house} onSaveNotes={onSaveNotes} />
                     <div>
                         <img src="/images/magnifying-glass.png" alt="magnifying-glass" className="magnifying-glass" />
                         <span>{house.privateInspectionBoolean

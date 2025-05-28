@@ -2,3 +2,8 @@
     width: 2rem;
     height: 2rem;
 }
+.important-note {
+    border-style: outset;
+    border-width: 0.3rem;
+    border-color:cornflowerblue;
+}

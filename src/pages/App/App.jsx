@@ -59,6 +59,7 @@ useEffect(() => {
               balcony: '',
               supermarket: [],
               s32: false,
+              importantComments: [],
               comments: [],
               preference: null
             }
@@ -92,11 +93,15 @@ useEffect(() => {
     getHouses()
   },[])
 
+  const onSaveNotes = (house, notes) => {
+    // local storage
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <div className="house-list">
-          { listOfHouses.map((house) => <HouseCard house={house} key={house.id} /> )}
+          { listOfHouses.map((house) => <HouseCard house={house} key={house.id} onSaveNotes={(notes) => onSaveNotes(house, notes)} /> )}
         </div>
       </header>
     </div>
