@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react"
-import axios from 'axios'
-import * as cheerio from 'cheerio';
-import './App.css';
-import {domainHouses} from '../../domain-houses';
-import HouseCard from '../../components/HouseCard/HouseCard';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import * as cheerio from "cheerio";
+import "./App.css";
+import { domainHouses } from "../../domain-houses";
+import HouseCard from "../../components/HouseCard/HouseCard";
 // const jmespath = require('jmespath');
 // import { houses } from '../../houses.js';
 
@@ -15,93 +15,103 @@ const urls = [
   // "https://www.domain.com.au/3-85-tinning-street-brunswick-vic-3056-2019675167",
   // "https://www.domain.com.au/516-300-victoria-street-brunswick-vic-3056-2019304279",
   // "https://www.domain.com.au/16-5-industry-lane-coburg-vic-3058-2019962199",
-]
+];
 
 export default function App() {
-const [ listOfHouses, setListOfHouses ] = useState([]);
+  const [listOfHouses, setListOfHouses] = useState([]);
 
-useEffect(() => {
+  useEffect(() => {
     const getHouses = async () => {
       // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
-        // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        // const responses = await Promise.all(
-        //   urls.map((url) => axios.get(proxyUrl + url))
-        // );
-        // const dataArray = responses.map(res => res.data);
+      // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      // const responses = await Promise.all(
+      //   urls.map((url) => axios.get(proxyUrl + url))
+      // );
+      // const dataArray = responses.map(res => res.data);
 
-        // const houseData = dataArray.map((html) => {
-        //   const $ = cheerio.load(html);
-        //   const housesFromTag = $("script[id='__NEXT_DATA__']").text();
-        //   return housesFromTag
-        // })
+      // const houseData = dataArray.map((html) => {
+      //   const $ = cheerio.load(html);
+      //   const housesFromTag = $("script[id='__NEXT_DATA__']").text();
+      //   return housesFromTag
+      // })
 
-        const houseData = domainHouses
-        const parsedHouses = houseData
-          .map((house) => {
-          // .map((house) => JSON.parse(house))
-          // .map((item) => {
-          //   console.log('domain props: ',item.props.pageProps.componentProps)
-          //   const listingSummary = item.props.pageProps.componentProps.listingSummary
-          //   const rootGraphQuery = item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2
-          //   const inspection = item.props.pageProps.componentProps.inspection
-          //   const suburb = item.props.pageProps.componentProps.suburb
-          //   const listingId = item.props.pageProps.componentProps.listingId
+      const houseData = domainHouses;
+      const parsedHouses = houseData.map((house) => {
+        // .map((house) => JSON.parse(house))
+        // .map((item) => {
+        //   console.log('domain props: ',item.props.pageProps.componentProps)
+        //   const listingSummary = item.props.pageProps.componentProps.listingSummary
+        //   const rootGraphQuery = item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2
+        //   const inspection = item.props.pageProps.componentProps.inspection
+        //   const suburb = item.props.pageProps.componentProps.suburb
+        //   const listingId = item.props.pageProps.componentProps.listingId
 
-            // temporary houses data to reduce request
-            const listingSummary = house.listingSummary
-            const rootGraphQuery = house.rootGraphQuery.listingByIdV2
-            const inspection = house.inspection
-            const suburb = house.suburb
-            const listingId = house.listingId
-            const userNotes = {
-              tram: '',
-              train: '',
-              balcony: '',
-              supermarket: [],
-              s32: false,
-              importantComments: [],
-              comments: [],
-              preference: null
-            }
-            return {
-              id: listingId,
-              address: listingSummary.address,
-              suburb: suburb,
-              baths: listingSummary.baths,
-              beds: listingSummary.beds,
-              parking: listingSummary.parking,
-              saleType: rootGraphQuery.saleMethod,
-              propertyType: rootGraphQuery.propertyTypes[0],
-              lowestPrice: rootGraphQuery.priceDetails.rawValues.from,
-              highestPrice: rootGraphQuery.priceDetails.rawValues.to,
-              singlePrice: rootGraphQuery.priceDetails.rawValues.exactPriceV2,
-              propertyPhoto: rootGraphQuery.smallMedia[0].url,
-              privateInspectionBoolean: inspection.appointmentOnly,
-              // array .openingDateTime, .closingDateTime and .time
-              inspectionSchedule: inspection.inspectionTimes,
-              userNotes: userNotes
-            }
-          })
-      
-        console.log(parsedHouses)
-        // const result = jmespath.search(houseData, "{*}.props.pageProps.componentProps.listingSummary.address")
-        // console.log(result)
-        
-        setListOfHouses(parsedHouses)
-    }
+        // temporary houses data to reduce request
+        const listingSummary = house.listingSummary;
+        const rootGraphQuery = house.rootGraphQuery.listingByIdV2;
+        const inspection = house.inspection;
+        const suburb = house.suburb;
+        const listingId = house.listingId;
+        const userNotes = {
+          tram: "",
+          train: "",
+          balcony: "",
+          supermarket: [],
+          s32: false,
+          importantComments: [],
+          comments: [],
+          preference: null,
+        };
+        return {
+          id: listingId,
+          address: listingSummary.address,
+          suburb: suburb,
+          baths: listingSummary.baths,
+          beds: listingSummary.beds,
+          parking: listingSummary.parking,
+          saleType: rootGraphQuery.saleMethod,
+          propertyType: rootGraphQuery.propertyTypes[0],
+          lowestPrice: rootGraphQuery.priceDetails.rawValues.from,
+          highestPrice: rootGraphQuery.priceDetails.rawValues.to,
+          singlePrice: rootGraphQuery.priceDetails.rawValues.exactPriceV2,
+          propertyPhoto: rootGraphQuery.smallMedia[0].url,
+          privateInspectionBoolean: inspection.appointmentOnly,
+          // array .openingDateTime, .closingDateTime and .time
+          inspectionSchedule: inspection.inspectionTimes,
+          userNotes: userNotes,
+        };
+      });
 
-    getHouses()
-  },[])
+      console.log(parsedHouses);
+      // const result = jmespath.search(houseData, "{*}.props.pageProps.componentProps.listingSummary.address")
+      // console.log(result)
+
+      setListOfHouses(parsedHouses);
+    };
+
+    getHouses();
+  }, []);
 
   const onSaveNotes = (house, notes) => {
     // local storage
-  }
+    const updatedHouse = {
+      ...house,
+      userNotes: { ...house.userNotes, ...notes },
+    };
+    localStorage.setItem(`house-${house.id}`, JSON.stringify(updatedHouse));
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <div className="house-list">
-          { listOfHouses.map((house) => <HouseCard house={house} key={house.id} onSaveNotes={(notes) => onSaveNotes(house, notes)} /> )}
+          {listOfHouses.map((house) => (
+            <HouseCard
+              house={house}
+              key={house.id}
+              onSaveNotes={(notes) => onSaveNotes(house, notes)}
+            />
+          ))}
         </div>
       </header>
     </div>
