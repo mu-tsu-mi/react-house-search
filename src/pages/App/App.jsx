@@ -19,8 +19,29 @@ const urls = [
 
 export default function App() {
   const [listOfHouses, setListOfHouses] = useState([]);
+  const [getNew, setGetNew] = useState(false);
 
+  // Load from local storage
   useEffect(() => {
+    const housesStoredInLocalStorage = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith("house-")) {
+        const house = localStorage.getItem(key);
+        if (house) {
+          housesStoredInLocalStorage.push(JSON.parse(house));
+        }
+      }
+    }
+    // console.log(housesStoredInLocalStorage);
+    if (housesStoredInLocalStorage.length > 0) {
+      setListOfHouses(housesStoredInLocalStorage);
+    }
+  }, []);
+
+  // Load from Domain or domainHouses in domain-houses.js
+  useEffect(() => {
+    if (!setGetNew) return;
     const getHouses = async () => {
       // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
       // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
@@ -83,10 +104,37 @@ export default function App() {
       });
 
       console.log(parsedHouses);
+
       // const result = jmespath.search(houseData, "{*}.props.pageProps.componentProps.listingSummary.address")
       // console.log(result)
 
       setListOfHouses(parsedHouses);
+
+      const housesStoredInLocalStorage = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("house-")) {
+          const house = localStorage.getItem(key);
+          if (house) {
+            housesStoredInLocalStorage.push(JSON.parse(house));
+          }
+        }
+      }
+      const newHouses = parsedHouses.filter((parsedH) => {
+        return !housesStoredInLocalStorage.some((storedH) => {
+          return parsedH.id === storedH.id;
+        });
+      });
+      console.log("newHouses: ", newHouses);
+      if (!newHouses) {
+        return;
+      } else {
+        // add new houses [{}]
+        // localStorage.setItem(...house, );
+        newHouses.forEach((newH) =>
+          localStorage.setItem(`house-${newH.id}`, JSON.stringify(newH))
+        );
+      }
     };
 
     getHouses();
@@ -105,6 +153,9 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <div className="house-list">
+          <button type="submit" onClick={() => setGetNew(true)}>
+            Get more houses
+          </button>
           {listOfHouses.map((house) => (
             <HouseCard
               house={house}
