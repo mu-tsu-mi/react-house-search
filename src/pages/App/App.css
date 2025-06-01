@@ -8,7 +8,7 @@
   }
 }
 
-.App-header {
+.house-list {
   /* background-color: #282c34; */
   min-height: 100vh;
   display: flex;
@@ -18,6 +18,25 @@
   font-size: calc(10px + 2vmin);
   /* color: white; */
   color: darkgrey;
+}
+
+.urls-to-add {
+  display: flex;
+  flex-direction: column;
+  width: 10rem;
+  align-items: center;
+  margin: 1rem;
+}
+form > #get-house-button {
+  margin-top: 0.5rem;
+}
+/* update colour later */
+form > #get-house-button:hover {
+  background-color: chocolate;
+  color: beige;
+}
+.url {
+  margin-top: 0.2rem;
 }
 
 /* .App-link {

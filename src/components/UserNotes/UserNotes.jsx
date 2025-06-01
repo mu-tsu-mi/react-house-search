@@ -13,44 +13,69 @@ export default function UserNotes({ house, onSaveNotes }) {
   };
   return (
     <>
-      <div>
-        <img src="/images/tram.png" alt="tram" className="usernote-icons" />
-        <input
-          name="tram"
-          type="text"
-          maxLength="30"
-          placeholder="Travel time, tram#"
-          onChange={handleInputNotes}
-        />
-        <img src="/images/train.png" alt="train" className="usernote-icons" />
-        <input
-          name="train"
-          type="text"
-          maxLength="30"
-          placeholder="Travel time, station, railway"
-          onChange={handleInputNotes}
-        />
-        <img src="/images/sun.png" alt="sun" className="usernote-icons" />
-        <span>balcony: </span>
-        <input
-          name="balcony"
-          type="text"
-          maxLength="50"
-          placeholder="North-facing..."
-          onChange={handleInputNotes}
-        />
-        <img
-          src="/images/shopping-cart.png"
-          alt="supermarket"
-          className="usernote-icons"
-        />
-        <input
-          name="supermarket"
-          type="text"
-          maxLength="80"
-          placeholder="Supermarket, travel time"
-          onChange={handleInputNotes}
-        />
+      <div className="usernote">
+        <div className="short-notes-wrapper">
+          <div className="short-notes-pair">
+            <div className="short-note">
+              <img
+                src="/images/tram.png"
+                alt="tram"
+                className="usernote-icons"
+              />
+              <input
+                name="tram"
+                type="text"
+                maxLength="30"
+                placeholder="Travel time, tram#"
+                title="Travel time, tram#"
+                onChange={handleInputNotes}
+              />
+            </div>
+            <div className="short-note">
+              <img
+                src="/images/train.png"
+                alt="train"
+                className="usernote-icons"
+              />
+              <input
+                name="train"
+                type="text"
+                maxLength="30"
+                placeholder="Travel time, station, railway"
+                title="Travel time, station, railway"
+                onChange={handleInputNotes}
+              />
+            </div>
+          </div>
+          <div className="short-notes-pair">
+            <div className="short-note">
+              <img src="/images/sun.png" alt="sun" className="usernote-icons" />
+              <input
+                name="balcony"
+                type="text"
+                maxLength="50"
+                placeholder="Balcony: North-facing..."
+                title="Balcony: North-facing..."
+                onChange={handleInputNotes}
+              />
+            </div>
+            <div className="short-note">
+              <img
+                src="/images/shopping-cart.png"
+                alt="supermarket"
+                className="usernote-icons"
+              />
+              <input
+                name="supermarket"
+                type="text"
+                maxLength="80"
+                placeholder="Supermarket, travel time"
+                title="Supermarket, travel time"
+                onChange={handleInputNotes}
+              />
+            </div>
+          </div>
+        </div>
         <ImportantNotes handleInputNotes={handleInputNotes} />
         <OtherNotes handleInputNotes={handleInputNotes} />
         <button type="submit" onClick={handleSaveNotes}>
@@ -63,7 +88,7 @@ export default function UserNotes({ house, onSaveNotes }) {
 
 function ImportantNotes({ handleInputNotes }) {
   return (
-    <>
+    <div className="desc-note">
       <label htmlFor="importantComments">Important note</label>
       <textarea
         name="importantComments"
@@ -73,13 +98,13 @@ function ImportantNotes({ handleInputNotes }) {
         className="important-note"
         onChange={handleInputNotes}
       ></textarea>
-    </>
+    </div>
   );
 }
 
 function OtherNotes({ handleInputNotes }) {
   return (
-    <>
+    <div className="desc-note">
       <label htmlFor="comments">Other things..</label>
       <textarea
         name="comments"
@@ -88,6 +113,6 @@ function OtherNotes({ handleInputNotes }) {
         cols="100"
         onChange={handleInputNotes}
       ></textarea>
-    </>
+    </div>
   );
 }

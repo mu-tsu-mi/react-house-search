@@ -49,6 +49,7 @@ export default function App() {
     const getHouses = async () => {
       // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
       // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
       // const responses = await Promise.all(
       //   urls.map((url) => axios.get(proxyUrl + url))
       // );
@@ -143,9 +144,37 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <div className="house-list">
-          <button type="submit" onClick={() => setGetNew(true)}>
-            Get more houses
-          </button>
+          <form
+            type="submit"
+            onClick={() => setGetNew(true)}
+            className="urls-to-add"
+          >
+            <input
+              type="url"
+              placeholder="Add URL"
+              name=""
+              pattern=".*\.domain\.com\.au.*"
+              className="url"
+              required
+            />
+            <input
+              type="url"
+              placeholder="Add URL"
+              name=""
+              pattern=".*\.domain\.com\.au.*"
+              className="url"
+            />
+            <input
+              type="url"
+              placeholder="Add URL"
+              name=""
+              pattern=".*\.domain\.com\.au.*"
+              className="url"
+            />
+            <button type="submit" id="get-house-button">
+              Get more houses
+            </button>
+          </form>
           {listOfHouses.map((house) => (
             <HouseCard
               house={house}

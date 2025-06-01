@@ -1,9 +1,30 @@
+.usernote {
+  background-color: antiquewhite;
+}
 .usernote-icons {
-    width: 2rem;
-    height: 2rem;
+  display: flex;
+  width: 2rem;
+  height: 2rem;
 }
 .important-note {
-    border-style: outset;
-    border-width: 0.3rem;
-    border-color:cornflowerblue;
+  border-style: outset;
+  border-width: 0.3rem;
+  border-color: cornflowerblue;
+}
+.short-notes-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.short-notes-pair {
+  display: flex;
+}
+.short-note {
+  display: flex;
+}
+.desc-note {
+  display: flex;
+}
+label {
+  font-size: 1rem;
 }
