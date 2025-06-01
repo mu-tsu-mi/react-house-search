@@ -21,8 +21,7 @@ export default function App() {
   const [listOfHouses, setListOfHouses] = useState([]);
   const [getNew, setGetNew] = useState(false);
 
-  // Load from local storage
-  useEffect(() => {
+  const fetchLocalStorage = () => {
     const housesStoredInLocalStorage = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -33,7 +32,12 @@ export default function App() {
         }
       }
     }
-    // console.log(housesStoredInLocalStorage);
+    return housesStoredInLocalStorage;
+  };
+
+  // Load from local storage
+  useEffect(() => {
+    const housesStoredInLocalStorage = fetchLocalStorage();
     if (housesStoredInLocalStorage.length > 0) {
       setListOfHouses(housesStoredInLocalStorage);
     }
@@ -105,32 +109,18 @@ export default function App() {
 
       console.log(parsedHouses);
 
-      // const result = jmespath.search(houseData, "{*}.props.pageProps.componentProps.listingSummary.address")
-      // console.log(result)
-
       setListOfHouses(parsedHouses);
 
-      const housesStoredInLocalStorage = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith("house-")) {
-          const house = localStorage.getItem(key);
-          if (house) {
-            housesStoredInLocalStorage.push(JSON.parse(house));
-          }
-        }
-      }
       const newHouses = parsedHouses.filter((parsedH) => {
+        const housesStoredInLocalStorage = fetchLocalStorage();
         return !housesStoredInLocalStorage.some((storedH) => {
           return parsedH.id === storedH.id;
         });
       });
-      console.log("newHouses: ", newHouses);
-      if (!newHouses) {
+
+      if (newHouses.length === 0) {
         return;
       } else {
-        // add new houses [{}]
-        // localStorage.setItem(...house, );
         newHouses.forEach((newH) =>
           localStorage.setItem(`house-${newH.id}`, JSON.stringify(newH))
         );
