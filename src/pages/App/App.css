@@ -1,5 +1,18 @@
+:root {
+  --base: ##faf7f0;
+  --red: #b17457;
+  /* --white: #faf7f0; */
+  --note: #f9f1eb;
+  --dark: #4a4947;
+  --warm: #776b5d;
+  --light: #b0a695;
+}
 .App {
+  display: flex;
+  align-items: center;
   text-align: center;
+  background-color: var(--base);
+  color: var(--dark);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -12,7 +25,8 @@
   /* background-color: #282c34; */
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -23,7 +37,6 @@
 .urls-to-add {
   display: flex;
   flex-direction: column;
-  width: 10rem;
   align-items: center;
   margin: 1rem;
 }
@@ -37,6 +50,7 @@ form > #get-house-button:hover {
 }
 .url {
   margin-top: 0.2rem;
+  width: 30rem;
 }
 
 /* .App-link {

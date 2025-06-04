@@ -69,9 +69,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+---
 
-
------------------
 Noun Project / Icons
 https://thenounproject.com/icon/train-7899168/
 https://thenounproject.com/icon/tram-7874988/
@@ -81,3 +80,5 @@ https://thenounproject.com/icon/magnifying-glass-7814369/
 https://thenounproject.com/icon/bed-1179855/
 https://thenounproject.com/icon/bathtub-7902075/
 https://thenounproject.com/icon/car-7897277/
+https://thenounproject.com/icon/triangle-flag-4773926/
+https://thenounproject.com/icon/pencil-7927074/

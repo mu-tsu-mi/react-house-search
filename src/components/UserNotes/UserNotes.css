@@ -1,5 +1,5 @@
-.usernote {
-  background-color: antiquewhite;
+.house-card-wrapper {
+  color: var(--dark);
 }
 .usernote-icons {
   display: flex;
@@ -7,9 +7,18 @@
   height: 2rem;
 }
 .important-note {
-  border-style: outset;
-  border-width: 0.3rem;
-  border-color: cornflowerblue;
+  border: solid;
+  border-width: 0.2rem;
+  background-color: var(--note);
+  border-color: var(--dark);
+  margin: 0.5rem 0;
+}
+.other-note {
+  border: solid;
+  border-width: 0.2rem;
+  background-color: var(--note);
+  border-color: var(--note);
+  margin: 0.5rem 0;
 }
 .short-notes-wrapper {
   display: flex;

@@ -89,12 +89,17 @@ export default function UserNotes({ house, onSaveNotes }) {
 function ImportantNotes({ handleInputNotes }) {
   return (
     <div className="desc-note">
-      <label htmlFor="importantComments">Important note</label>
+      <img
+        src="/images/triangle-flag-4773926.png"
+        alt="triangle-flag"
+        className="usernote-icons"
+      />
       <textarea
         name="importantComments"
         maxLength="120"
         rows="3"
-        cols="80"
+        cols="100"
+        placeholder="Important points"
         className="important-note"
         onChange={handleInputNotes}
       ></textarea>
@@ -105,12 +110,18 @@ function ImportantNotes({ handleInputNotes }) {
 function OtherNotes({ handleInputNotes }) {
   return (
     <div className="desc-note">
-      <label htmlFor="comments">Other things..</label>
+      <img
+        src="/images/pencil-7927074.png"
+        className="usernote-icons"
+        alt="pencil"
+      />
       <textarea
         name="comments"
         maxLength="200"
         rows="3"
         cols="100"
+        placeholder="Other things.."
+        className="other-note"
         onChange={handleInputNotes}
       ></textarea>
     </div>

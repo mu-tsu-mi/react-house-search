@@ -22,9 +22,9 @@ export default function HouseCard({ house, onSaveNotes }) {
       return <p>no price to display</p>;
     } else if (!pr) {
       return (
-        <p>
+        <div>
           ${low.toLocaleString()}~{high.toLocaleString()}
-        </p>
+        </div>
       );
     } else {
       return <p>${pr.toLocaleString()}</p>;
@@ -37,10 +37,10 @@ export default function HouseCard({ house, onSaveNotes }) {
     <>
       <div className="house-card-wrapper">
         <form>
-          <p>{propertyType}</p>
-          <p>{house.address}</p>
+          <div>{propertyType}</div>
+          <div>{house.address}</div>
           {price(house.singlePrice, house.lowestPrice, house.highestPrice)}
-          <p>Sale Type: {house.saleType}</p>
+          <div>Sale Type: {house.saleType}</div>
           <div>
             <img src="/images/bed-1179855.png" alt="bed" className="spec" />
             <span>{house.beds}</span>

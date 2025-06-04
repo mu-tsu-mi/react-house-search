@@ -1,9 +1,12 @@
-
+.house-card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
 .magnifying-glass {
-    width: 3rem;
-    height: 3rem;
+  width: 3rem;
+  height: 3rem;
 }
 .spec {
-    width: 2rem;
-    height: 2rem;
+  width: 2rem;
+  height: 2rem;
 }
