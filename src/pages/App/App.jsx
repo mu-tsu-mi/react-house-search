@@ -142,48 +142,46 @@ export default function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <form
-          type="submit"
-          onClick={() => setGetNew(true)}
-          className="urls-to-add"
-        >
-          <input
-            type="url"
-            placeholder="Add URL"
-            name=""
-            pattern=".*\.domain\.com\.au.*"
-            className="url"
-            required
+      <form
+        type="submit"
+        onClick={() => setGetNew(true)}
+        className="urls-to-add"
+      >
+        <input
+          type="url"
+          placeholder="Add URL"
+          name=""
+          pattern=".*\.domain\.com\.au.*"
+          className="url"
+          required
+        />
+        <input
+          type="url"
+          placeholder="Add URL"
+          name=""
+          pattern=".*\.domain\.com\.au.*"
+          className="url"
+        />
+        <input
+          type="url"
+          placeholder="Add URL"
+          name=""
+          pattern=".*\.domain\.com\.au.*"
+          className="url"
+        />
+        <button type="submit" id="get-house-button">
+          Get more houses
+        </button>
+      </form>
+      <div className="house-list">
+        {listOfHouses.map((house) => (
+          <HouseCard
+            house={house}
+            key={house.id}
+            onSaveNotes={(notes) => onSaveNotes(house, notes)}
           />
-          <input
-            type="url"
-            placeholder="Add URL"
-            name=""
-            pattern=".*\.domain\.com\.au.*"
-            className="url"
-          />
-          <input
-            type="url"
-            placeholder="Add URL"
-            name=""
-            pattern=".*\.domain\.com\.au.*"
-            className="url"
-          />
-          <button type="submit" id="get-house-button">
-            Get more houses
-          </button>
-        </form>
-        <div className="house-list">
-          {listOfHouses.map((house) => (
-            <HouseCard
-              house={house}
-              key={house.id}
-              onSaveNotes={(notes) => onSaveNotes(house, notes)}
-            />
-          ))}
-        </div>
-      </header>
+        ))}
+      </div>
     </div>
   );
 }

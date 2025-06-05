@@ -2,9 +2,25 @@
   display: flex;
   flex-wrap: wrap;
 }
+.house-card-wrapper div {
+  margin-bottom: 0.3rem;
+}
+.house-card-wrapper img {
+  margin: 0 0.3rem;
+}
+.property-type {
+  color: var(--red);
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 1.2rem;
+  padding: 0 1rem;
+}
 .magnifying-glass {
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
+}
+.magnifying-glass img {
+  margin: 0.5rem 0;
 }
 .spec {
   width: 2rem;

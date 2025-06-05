@@ -19,7 +19,7 @@ export default function HouseCard({ house, onSaveNotes }) {
 
   const price = (pr, low, high) => {
     if (!pr && !low && !high) {
-      return <p>no price to display</p>;
+      return <div>no price to display</div>;
     } else if (!pr) {
       return (
         <div>
@@ -27,7 +27,7 @@ export default function HouseCard({ house, onSaveNotes }) {
         </div>
       );
     } else {
-      return <p>${pr.toLocaleString()}</p>;
+      return <div>${pr.toLocaleString()}</div>;
     }
   };
   const sch = house.privateInspectionBoolean
@@ -37,8 +37,10 @@ export default function HouseCard({ house, onSaveNotes }) {
     <>
       <div className="house-card-wrapper">
         <form>
-          <div>{propertyType}</div>
-          <div>{house.address}</div>
+          <div>
+            <span className="property-type">{propertyType}</span>
+            <span>{house.address}</span>
+          </div>
           {price(house.singlePrice, house.lowestPrice, house.highestPrice)}
           <div>Sale Type: {house.saleType}</div>
           <div>
@@ -57,9 +59,9 @@ export default function HouseCard({ house, onSaveNotes }) {
           </div>
           <img src={house.propertyPhoto} />
           <UserNotes house={house} onSaveNotes={onSaveNotes} />
-          <div>
+          <div className="inspection">
             <img
-              src="/images/magnifying-glass.png"
+              src="/images/magnifying-glass-7563177.png"
               alt="magnifying-glass"
               className="magnifying-glass"
             />

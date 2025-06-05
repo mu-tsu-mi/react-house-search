@@ -6,19 +6,23 @@
   width: 2rem;
   height: 2rem;
 }
+.important-note:focus,
+.other-note:focus {
+  outline: 0.2rem solid var(--warm);
+}
 .important-note {
   border: solid;
   border-width: 0.2rem;
   background-color: var(--note);
   border-color: var(--dark);
-  margin: 0.5rem 0;
+  margin: 0 0.5rem 0;
 }
 .other-note {
   border: solid;
   border-width: 0.2rem;
   background-color: var(--note);
   border-color: var(--note);
-  margin: 0.5rem 0;
+  margin: 0 0.5rem 0;
 }
 .short-notes-wrapper {
   display: flex;
@@ -34,6 +38,13 @@
 .desc-note {
   display: flex;
 }
+.desc-note img {
+  margin: 0.5rem 0;
+}
 label {
   font-size: 1rem;
+}
+.inspection {
+  display: flex;
+  justify-content: center;
 }

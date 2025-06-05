@@ -9,29 +9,18 @@
 }
 .App {
   display: flex;
+  flex-direction: column;
+  width: 100vw;
   align-items: center;
   text-align: center;
   background-color: var(--base);
   color: var(--dark);
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .house-list {
-  /* background-color: #282c34; */
-  min-height: 100vh;
   display: flex;
-  /* flex-direction: column; */
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  /* color: white; */
-  color: darkgrey;
 }
 
 .urls-to-add {
@@ -42,11 +31,15 @@
 }
 form > #get-house-button {
   margin-top: 0.5rem;
+  background-color: var(--warm);
+  border-color: var(--warm);
+  color: var(--note);
+  padding: 0.3rem 3rem;
 }
-/* update colour later */
 form > #get-house-button:hover {
-  background-color: chocolate;
-  color: beige;
+  background-color: var(--red);
+  border-color: var(--red);
+  color: var(--note);
 }
 .url {
   margin-top: 0.2rem;
@@ -57,11 +50,19 @@ form > #get-house-button:hover {
   color: #61dafb;
 } */
 
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */
+/* .App-header {
+  width: 100vw;
+} */
+/* @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} */
