@@ -9,7 +9,7 @@ import HouseCard from "../../components/HouseCard/HouseCard";
 
 const urls = [
   "https://www.domain.com.au/1-2-hudson-street-coburg-vic-3058-2019983759",
-  "https://www.domain.com.au/4-6-hudson-street-coburg-vic-3058-2019260956",
+  // "https://www.domain.com.au/4-6-hudson-street-coburg-vic-3058-2019260956",
   // "https://www.domain.com.au/6-47-railway-place-west-flemington-vic-3031-2019990953",
   // "https://www.domain.com.au/3-7-9-rankins-road-kensington-vic-3031-2019933401",
   // "https://www.domain.com.au/3-85-tinning-street-brunswick-vic-3056-2019675167",
@@ -20,6 +20,8 @@ const urls = [
 export default function App() {
   const [listOfHouses, setListOfHouses] = useState([]);
   const [getNew, setGetNew] = useState(false);
+  const [newUrls, setNewUrls] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const fetchLocalStorage = () => {
     const housesStoredInLocalStorage = [];
@@ -37,76 +39,83 @@ export default function App() {
 
   // Load from local storage
   useEffect(() => {
+    if (getNew) return;
+
     const housesStoredInLocalStorage = fetchLocalStorage();
+    console.log("local storage: ", housesStoredInLocalStorage);
     if (housesStoredInLocalStorage.length > 0) {
       setListOfHouses(housesStoredInLocalStorage);
     }
-  }, []);
+  }, [getNew]);
 
   // Load from Domain or domainHouses in domain-houses.js
   useEffect(() => {
-    if (!setGetNew) return;
+    if (!getNew) return;
+
     const getHouses = async () => {
       // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
-      // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 
-      // const responses = await Promise.all(
-      //   urls.map((url) => axios.get(proxyUrl + url))
-      // );
-      // const dataArray = responses.map(res => res.data);
+      const responses = await Promise.all(
+        urls.map((url) => axios.get(proxyUrl + url))
+      );
+      const dataArray = responses.map((res) => res.data);
 
-      // const houseData = dataArray.map((html) => {
-      //   const $ = cheerio.load(html);
-      //   const housesFromTag = $("script[id='__NEXT_DATA__']").text();
-      //   return housesFromTag
-      // })
-
-      const houseData = domainHouses;
-      const parsedHouses = houseData.map((house) => {
-        // .map((house) => JSON.parse(house))
-        // .map((item) => {
-        //   console.log('domain props: ',item.props.pageProps.componentProps)
-        //   const listingSummary = item.props.pageProps.componentProps.listingSummary
-        //   const rootGraphQuery = item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2
-        //   const inspection = item.props.pageProps.componentProps.inspection
-        //   const suburb = item.props.pageProps.componentProps.suburb
-        //   const listingId = item.props.pageProps.componentProps.listingId
-
-        // temporary houses data to reduce request
-        const listingSummary = house.listingSummary;
-        const rootGraphQuery = house.rootGraphQuery.listingByIdV2;
-        const inspection = house.inspection;
-        const suburb = house.suburb;
-        const listingId = house.listingId;
-        const userNotes = {
-          tram: "",
-          train: "",
-          balcony: "",
-          supermarket: [],
-          s32: false,
-          importantComments: [],
-          comments: [],
-          preference: null,
-        };
-        return {
-          id: listingId,
-          address: listingSummary.address,
-          suburb: suburb,
-          baths: listingSummary.baths,
-          beds: listingSummary.beds,
-          parking: listingSummary.parking,
-          saleType: rootGraphQuery.saleMethod,
-          propertyType: rootGraphQuery.propertyTypes[0],
-          lowestPrice: rootGraphQuery.priceDetails.rawValues.from,
-          highestPrice: rootGraphQuery.priceDetails.rawValues.to,
-          singlePrice: rootGraphQuery.priceDetails.rawValues.exactPriceV2,
-          propertyPhoto: rootGraphQuery.smallMedia[0].url,
-          privateInspectionBoolean: inspection.appointmentOnly,
-          // array .openingDateTime, .closingDateTime and .time
-          inspectionSchedule: inspection.inspectionTimes,
-          userNotes: userNotes,
-        };
+      const houseData = dataArray.map((html) => {
+        const $ = cheerio.load(html);
+        const housesFromTag = $("script[id='__NEXT_DATA__']").text();
+        return housesFromTag;
       });
+
+      // const houseData = domainHouses;
+      const parsedHouses = houseData
+        // .map((house) => {
+        .map((house) => JSON.parse(house))
+        .map((item) => {
+          console.log("domain props: ", item.props.pageProps.componentProps);
+          const listingSummary =
+            item.props.pageProps.componentProps.listingSummary;
+          const rootGraphQuery =
+            item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2;
+          const inspection = item.props.pageProps.componentProps.inspection;
+          const suburb = item.props.pageProps.componentProps.suburb;
+          const listingId = item.props.pageProps.componentProps.listingId;
+
+          // temporary houses data to reduce request
+          // const listingSummary = house.listingSummary;
+          // const rootGraphQuery = house.rootGraphQuery.listingByIdV2;
+          // const inspection = house.inspection;
+          // const suburb = house.suburb;
+          // const listingId = house.listingId;
+          const userNotes = {
+            tram: "",
+            train: "",
+            balcony: "",
+            supermarket: [],
+            s32: false,
+            importantComments: [],
+            comments: [],
+            preference: null,
+          };
+          return {
+            id: listingId,
+            address: listingSummary.address,
+            suburb: suburb,
+            baths: listingSummary.baths,
+            beds: listingSummary.beds,
+            parking: listingSummary.parking,
+            saleType: rootGraphQuery.saleMethod,
+            propertyType: rootGraphQuery.propertyTypes[0],
+            lowestPrice: rootGraphQuery.priceDetails.rawValues.from,
+            highestPrice: rootGraphQuery.priceDetails.rawValues.to,
+            singlePrice: rootGraphQuery.priceDetails.rawValues.exactPriceV2,
+            propertyPhoto: rootGraphQuery.smallMedia[0].url,
+            privateInspectionBoolean: inspection.appointmentOnly,
+            // array .openingDateTime, .closingDateTime and .time
+            inspectionSchedule: inspection.inspectionTimes,
+            userNotes: userNotes,
+          };
+        });
 
       console.log(parsedHouses);
 
@@ -114,9 +123,13 @@ export default function App() {
 
       const newHouses = parsedHouses.filter((parsedH) => {
         const housesStoredInLocalStorage = fetchLocalStorage();
-        return !housesStoredInLocalStorage.some((storedH) => {
-          return parsedH.id === storedH.id;
-        });
+        if (!housesStoredInLocalStorage) {
+          return;
+        } else {
+          return !housesStoredInLocalStorage.some((storedH) => {
+            return parsedH.id === storedH.id;
+          });
+        }
       });
 
       if (newHouses.length === 0) {
@@ -126,10 +139,34 @@ export default function App() {
           localStorage.setItem(`house-${newH.id}`, JSON.stringify(newH))
         );
       }
+      // Set status back after saving new houses
+      setGetNew(false);
     };
 
     getHouses();
   }, []);
+
+  const handleAddUrls = (e) => {
+    e.preventDefault();
+    setGetNew(true);
+    setErrorMsg("");
+    // Add new urls after checking for duplication
+    if (newUrls.length === 0) {
+      return;
+    }
+    if (newUrls.length === 1) urls.push(newUrls[0]);
+
+    const duplicationCheck = new Set(newUrls);
+    const noDuplication = duplicationCheck.size === newUrls.length;
+
+    if (noDuplication && newUrls.length > 1) {
+      newUrls.forEach((newUrl) => {
+        urls.push(newUrl);
+      });
+    } else {
+      return setErrorMsg("Please resubmit URLs without duplication");
+    }
+  };
 
   const onSaveNotes = (house, notes) => {
     // local storage
@@ -140,18 +177,17 @@ export default function App() {
     localStorage.setItem(`house-${house.id}`, JSON.stringify(updatedHouse));
   };
 
+  const handleUrlInput = (e) => setNewUrls([...newUrls, e.target.value]);
+
   return (
     <div className="App">
-      <form
-        type="submit"
-        onClick={() => setGetNew(true)}
-        className="urls-to-add"
-      >
+      <form type="submit" className="urls-to-add">
         <input
           type="url"
           placeholder="Add URL"
           name=""
           pattern=".*\.domain\.com\.au.*"
+          onChange={handleUrlInput}
           className="url"
           required
         />
@@ -160,6 +196,7 @@ export default function App() {
           placeholder="Add URL"
           name=""
           pattern=".*\.domain\.com\.au.*"
+          onChange={handleUrlInput}
           className="url"
         />
         <input
@@ -167,11 +204,13 @@ export default function App() {
           placeholder="Add URL"
           name=""
           pattern=".*\.domain\.com\.au.*"
+          onChange={handleUrlInput}
           className="url"
         />
-        <button type="submit" id="get-house-button">
+        <button type="submit" id="get-house-button" onClick={handleAddUrls}>
           Get more houses
         </button>
+        {errorMsg && <div>{errorMsg}</div>}
       </form>
       <div className="house-list">
         {listOfHouses.map((house) => (
