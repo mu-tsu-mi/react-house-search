@@ -20,7 +20,7 @@ const urls = [
 export default function App() {
   const [listOfHouses, setListOfHouses] = useState([]);
   const [getNew, setGetNew] = useState(false);
-  const [newUrls, setNewUrls] = useState([]);
+  const [newUrls, setNewUrls] = useState(["", "", ""]);
   const [errorMsg, setErrorMsg] = useState("");
 
   const fetchLocalStorage = () => {
@@ -147,25 +147,36 @@ export default function App() {
   }, []);
 
   const handleAddUrls = (e) => {
-    e.preventDefault();
-    setGetNew(true);
-    setErrorMsg("");
     // Add new urls after checking for duplication
+    e.preventDefault();
+    setErrorMsg("");
+
+    const domainUrl = ".*.domain.com.au.*";
     if (newUrls.length === 0) {
+      setErrorMsg("Enter at least one URL");
       return;
     }
-    if (newUrls.length === 1) urls.push(newUrls[0]);
 
     const duplicationCheck = new Set(newUrls);
     const noDuplication = duplicationCheck.size === newUrls.length;
-
-    if (noDuplication && newUrls.length > 1) {
-      newUrls.forEach((newUrl) => {
-        urls.push(newUrl);
-      });
-    } else {
-      return setErrorMsg("Please resubmit URLs without duplication");
+    const allValid = newUrls.every((url) => url.includes(domainUrl));
+    if (!noDuplication) {
+      setErrorMsg("Please resubmit URLs without duplication");
+      setNewUrls(["", "", ""]);
+      return;
     }
+    if (!allValid) {
+      setErrorMsg("URL must be a Domain property page");
+      // needs update
+      setNewUrls(["", "", ""]);
+      return;
+    }
+    // needs update(url validation)
+    if (noDuplication && allValid) {
+      newUrls.forEach((newUrl) => urls.push(newUrl));
+    }
+    setGetNew(true);
+    setNewUrls(["", "", ""]);
   };
 
   const onSaveNotes = (house, notes) => {
@@ -177,7 +188,11 @@ export default function App() {
     localStorage.setItem(`house-${house.id}`, JSON.stringify(updatedHouse));
   };
 
-  const handleUrlInput = (e) => setNewUrls([...newUrls, e.target.value]);
+  const handleUrlInput = (index, value) => {
+    const updated = [...newUrls];
+    updated[index] = value;
+    setNewUrls(updated);
+  };
 
   return (
     <div className="App">
@@ -185,26 +200,26 @@ export default function App() {
         <input
           type="url"
           placeholder="Add URL"
-          name=""
+          value={newUrls[0]}
           pattern=".*\.domain\.com\.au.*"
-          onChange={handleUrlInput}
+          onChange={(e) => handleUrlInput(0, e.target.value)}
           className="url"
           required
         />
         <input
           type="url"
           placeholder="Add URL"
-          name=""
+          value={newUrls[1]}
           pattern=".*\.domain\.com\.au.*"
-          onChange={handleUrlInput}
+          onChange={(e) => handleUrlInput(1, e.target.value)}
           className="url"
         />
         <input
           type="url"
           placeholder="Add URL"
-          name=""
+          value={newUrls[2]}
           pattern=".*\.domain\.com\.au.*"
-          onChange={handleUrlInput}
+          onChange={(e) => handleUrlInput(2, e.target.value)}
           className="url"
         />
         <button type="submit" id="get-house-button" onClick={handleAddUrls}>
