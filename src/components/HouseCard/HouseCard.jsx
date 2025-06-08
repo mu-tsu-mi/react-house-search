@@ -30,9 +30,19 @@ export default function HouseCard({ house, onSaveNotes }) {
       return <div>${pr.toLocaleString()}</div>;
     }
   };
-  const sch = house.privateInspectionBoolean
-    ? null
-    : house.inspectionSchedule[0];
+
+  // WIP line 35-44 & 78-84
+  const sch =
+    house.privateInspectionBoolean === undefined
+      ? null
+      : !house.privateInspectionBoolean
+      ? house.inspectionSchedule[0]
+      : "Book a private inspection";
+
+  // !house.privateInspectionBoolean && house.inspectionSchedule[0]
+  //   ? house.inspectionSchedule[0]
+  //   : null;
+
   return (
     <>
       <div className="house-card-wrapper">
@@ -57,7 +67,7 @@ export default function HouseCard({ house, onSaveNotes }) {
               {house.parking}
             </span>
           </div>
-          <img src={house.propertyPhoto} />
+          <img src={house.propertyPhoto} alt="property-image" />
           <UserNotes house={house} onSaveNotes={onSaveNotes} />
           <div className="inspection">
             <img
@@ -68,7 +78,9 @@ export default function HouseCard({ house, onSaveNotes }) {
             <span>
               {house.privateInspectionBoolean
                 ? "Book a private inspection."
-                : `${sch.dayOfWeek} ${sch.day} ${sch.month}`}
+                : sch
+                ? `${sch.dayOfWeek} ${sch.day} ${sch.month}`
+                : "Contact the agent for more details"}
             </span>
           </div>
         </form>

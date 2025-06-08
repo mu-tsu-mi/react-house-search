@@ -144,37 +144,48 @@ export default function App() {
     };
 
     getHouses();
-  }, []);
+  }, [getNew]);
 
   const handleAddUrls = (e) => {
     // Add new urls after checking for duplication
     e.preventDefault();
     setErrorMsg("");
-
-    const domainUrl = ".*.domain.com.au.*";
+    const domainUrl = "domain.com.au";
     if (newUrls.length === 0) {
       setErrorMsg("Enter at least one URL");
       return;
     }
 
-    const duplicationCheck = new Set(newUrls);
-    const noDuplication = duplicationCheck.size === newUrls.length;
-    const allValid = newUrls.every((url) => url.includes(domainUrl));
+    // filter domain URLs only
+    const validUrls = newUrls.filter((url) => url.includes(domainUrl));
+    const invalidUrls = newUrls
+      .filter((url) => !url.includes(domainUrl))
+      .filter((url) => url !== "");
+    // console.log(
+    //   validUrls,
+    //   validUrls.length,
+    //   invalidUrls.length,
+    //   invalidUrls,
+    //   newUrls.length
+    // );
+    const duplicationCheck = new Set(validUrls);
+    const noDuplication = duplicationCheck.size === validUrls.length;
+
+    // const allValid = newUrls.every((url) => url.includes(domainUrl));
+
     if (!noDuplication) {
       setErrorMsg("Please resubmit URLs without duplication");
-      setNewUrls(["", "", ""]);
       return;
     }
-    if (!allValid) {
+    // urls contain invalid url
+    if (invalidUrls.length > 0) {
       setErrorMsg("URL must be a Domain property page");
-      // needs update
-      setNewUrls(["", "", ""]);
       return;
     }
-    // needs update(url validation)
-    if (noDuplication && allValid) {
-      newUrls.forEach((newUrl) => urls.push(newUrl));
+    if (noDuplication) {
+      validUrls.forEach((newUrl) => urls.push(newUrl));
     }
+    // console.log("is it here?");
     setGetNew(true);
     setNewUrls(["", "", ""]);
   };
@@ -196,6 +207,7 @@ export default function App() {
 
   return (
     <div className="App">
+      {/* Move urls form to a component */}
       <form type="submit" className="urls-to-add">
         <input
           type="url"
