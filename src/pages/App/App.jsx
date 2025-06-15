@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import "./App.css";
@@ -19,7 +19,6 @@ const urls = [
 
 export default function App() {
   const [listOfHouses, setListOfHouses] = useState([]);
-  const [getNew, setGetNew] = useState(false);
   const [newUrl, setNewUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -38,20 +37,21 @@ export default function App() {
   };
 
   // Load from local storage
-  useEffect(() => {
-    if (getNew) return;
-
+  const loadFromLocalStorage = useCallback(() => {
     const housesStoredInLocalStorage = fetchLocalStorage();
     console.log("local storage: ", housesStoredInLocalStorage);
     if (housesStoredInLocalStorage.length > 0) {
       setListOfHouses(housesStoredInLocalStorage);
     }
-  }, [getNew]);
+  }, []);
+
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, [loadFromLocalStorage]);
 
   // Load from Domain or domainHouses in domain-houses.js
-  useEffect(() => {
-    if (!getNew) return;
-
+  const getHouseFromDomainOrLocal = useCallback(() => {
+    // if (!newUrl) return;
     const getHouses = async () => {
       // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -117,10 +117,6 @@ export default function App() {
           };
         });
 
-      console.log(parsedHouses);
-
-      setListOfHouses(parsedHouses);
-
       const newHouses = parsedHouses.filter((parsedH) => {
         const housesStoredInLocalStorage = fetchLocalStorage();
         if (!housesStoredInLocalStorage) {
@@ -139,12 +135,12 @@ export default function App() {
           localStorage.setItem(`house-${newH.id}`, JSON.stringify(newH))
         );
       }
-      // Set status back after saving new houses
-      setGetNew(false);
+
+      loadFromLocalStorage();
     };
 
     getHouses();
-  }, [getNew]);
+  }, [loadFromLocalStorage]);
 
   const handleAddUrls = (e) => {
     // Add new urls after checking for duplication
@@ -162,17 +158,9 @@ export default function App() {
     const invalidUrls = newUrls
       .filter((url) => !url.includes(domainUrl))
       .filter((url) => url !== "");
-    // console.log(
-    //   validUrls,
-    //   validUrls.length,
-    //   invalidUrls.length,
-    //   invalidUrls,
-    //   newUrls.length
-    // );
+
     const duplicationCheck = new Set(validUrls);
     const noDuplication = duplicationCheck.size === validUrls.length;
-
-    // const allValid = newUrls.every((url) => url.includes(domainUrl));
 
     if (!noDuplication) {
       setErrorMsg("Please resubmit URLs without duplication");
@@ -186,7 +174,8 @@ export default function App() {
     if (noDuplication) {
       validUrls.forEach((newUrl) => urls.push(newUrl));
     }
-    setGetNew(true);
+
+    getHouseFromDomainOrLocal();
     setNewUrl("");
   };
 
@@ -205,7 +194,6 @@ export default function App() {
 
   return (
     <div className="App">
-      {/* Move urls form to a component */}
       <form type="submit" className="urls-to-add">
         <input
           type="url"
