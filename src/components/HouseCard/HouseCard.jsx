@@ -31,17 +31,16 @@ export default function HouseCard({ house, onSaveNotes }) {
     }
   };
 
-  // WIP line 35-44 & 78-84
-  const sch =
-    house.privateInspectionBoolean === undefined
-      ? null
-      : !house.privateInspectionBoolean
-      ? house.inspectionSchedule[0]
-      : "Book a private inspection";
-
-  // !house.privateInspectionBoolean && house.inspectionSchedule[0]
-  //   ? house.inspectionSchedule[0]
-  //   : null;
+  const inspectionSchedule = (house) => {
+    if (house.privateInspectionBoolean) {
+      return "Book a private inspection";
+    }
+    if (house.inspectionSchedule && house.inspectionSchedule.length > 0) {
+      const sch = house.inspectionSchedule[0];
+      return `${sch.dayOfWeek} ${sch.day} ${sch.month}`;
+    }
+    return "Contact the agent for more details";
+  };
 
   return (
     <>
@@ -75,13 +74,7 @@ export default function HouseCard({ house, onSaveNotes }) {
               alt="magnifying-glass"
               className="magnifying-glass"
             />
-            <span>
-              {house.privateInspectionBoolean
-                ? "Book a private inspection."
-                : sch
-                ? `${sch.dayOfWeek} ${sch.day} ${sch.month}`
-                : "Contact the agent for more details"}
-            </span>
+            <span>{inspectionSchedule(house)}</span>
           </div>
         </form>
       </div>

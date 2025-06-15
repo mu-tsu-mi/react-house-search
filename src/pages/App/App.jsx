@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import "./App.css";
-import { domainHouses } from "../../domain-houses";
+// import { domainHouses } from "../../domain-houses";
 import HouseCard from "../../components/HouseCard/HouseCard";
 // const jmespath = require('jmespath');
 // import { houses } from '../../houses.js';
@@ -20,7 +20,7 @@ const urls = [
 export default function App() {
   const [listOfHouses, setListOfHouses] = useState([]);
   const [getNew, setGetNew] = useState(false);
-  const [newUrls, setNewUrls] = useState(["", "", ""]);
+  const [newUrl, setNewUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   const fetchLocalStorage = () => {
@@ -124,7 +124,7 @@ export default function App() {
       const newHouses = parsedHouses.filter((parsedH) => {
         const housesStoredInLocalStorage = fetchLocalStorage();
         if (!housesStoredInLocalStorage) {
-          return;
+          return false;
         } else {
           return !housesStoredInLocalStorage.some((storedH) => {
             return parsedH.id === storedH.id;
@@ -151,10 +151,11 @@ export default function App() {
     e.preventDefault();
     setErrorMsg("");
     const domainUrl = "domain.com.au";
-    if (newUrls.length === 0) {
-      setErrorMsg("Enter at least one URL");
+    if (newUrl.length === 0) {
+      setErrorMsg("Enter a URL");
       return;
     }
+    const newUrls = [newUrl];
 
     // filter domain URLs only
     const validUrls = newUrls.filter((url) => url.includes(domainUrl));
@@ -185,9 +186,8 @@ export default function App() {
     if (noDuplication) {
       validUrls.forEach((newUrl) => urls.push(newUrl));
     }
-    // console.log("is it here?");
     setGetNew(true);
-    setNewUrls(["", "", ""]);
+    setNewUrl("");
   };
 
   const onSaveNotes = (house, notes) => {
@@ -199,10 +199,8 @@ export default function App() {
     localStorage.setItem(`house-${house.id}`, JSON.stringify(updatedHouse));
   };
 
-  const handleUrlInput = (index, value) => {
-    const updated = [...newUrls];
-    updated[index] = value;
-    setNewUrls(updated);
+  const handleUrlInput = (value) => {
+    setNewUrl(value);
   };
 
   return (
@@ -212,27 +210,11 @@ export default function App() {
         <input
           type="url"
           placeholder="Add URL"
-          value={newUrls[0]}
+          value={newUrl}
           pattern=".*\.domain\.com\.au.*"
-          onChange={(e) => handleUrlInput(0, e.target.value)}
+          onChange={(e) => handleUrlInput(e.target.value)}
           className="url"
           required
-        />
-        <input
-          type="url"
-          placeholder="Add URL"
-          value={newUrls[1]}
-          pattern=".*\.domain\.com\.au.*"
-          onChange={(e) => handleUrlInput(1, e.target.value)}
-          className="url"
-        />
-        <input
-          type="url"
-          placeholder="Add URL"
-          value={newUrls[2]}
-          pattern=".*\.domain\.com\.au.*"
-          onChange={(e) => handleUrlInput(2, e.target.value)}
-          className="url"
         />
         <button type="submit" id="get-house-button" onClick={handleAddUrls}>
           Get more houses
