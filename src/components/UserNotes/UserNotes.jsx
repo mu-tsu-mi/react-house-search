@@ -12,6 +12,8 @@ export default function UserNotes({ house, onSaveNotes }) {
     comments: house.userNotes.comments,
     preference: house.userNotes.preference,
   });
+  const [successMsg, setSuccessMsg] = useState("");
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
   const handleInputNotes = (e) => {
     setMyNotes({ ...myNotes, [e.target.name]: e.target.value });
@@ -20,6 +22,13 @@ export default function UserNotes({ house, onSaveNotes }) {
   const handleSaveNotes = (e) => {
     e.preventDefault();
     onSaveNotes(myNotes);
+    setTimeout(() => {
+      setSuccessMsg("Note: Saved");
+      setShowSuccessMsg(true);
+      setTimeout(() => {
+        setShowSuccessMsg(false);
+      }, 3000);
+    }, 1000);
   };
   return (
     <>
@@ -95,6 +104,7 @@ export default function UserNotes({ house, onSaveNotes }) {
         <button type="submit" onClick={handleSaveNotes}>
           Save
         </button>
+        {showSuccessMsg && <span className="success-msg">{successMsg}</span>}
         <hr />
       </div>
     </>

@@ -48,3 +48,10 @@ label {
   display: flex;
   justify-content: center;
 }
+
+.success-msg {
+  font-size: 0.9rem;
+  color: var(--success);
+  margin-left: 2rem;
+  font-weight: bold;
+}

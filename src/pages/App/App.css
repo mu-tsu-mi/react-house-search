@@ -6,6 +6,7 @@
   --dark: #4a4947;
   --warm: #776b5d;
   --light: #b0a695;
+  --success: #3e7a5e;
 }
 .App {
   display: flex;
