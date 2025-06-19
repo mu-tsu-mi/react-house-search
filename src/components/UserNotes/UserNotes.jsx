@@ -2,7 +2,17 @@ import { useState } from "react";
 import "./UserNotes.css";
 
 export default function UserNotes({ house, onSaveNotes }) {
-  const [myNotes, setMyNotes] = useState({});
+  const [myNotes, setMyNotes] = useState({
+    tram: house.userNotes.tram,
+    train: house.userNotes.train,
+    balcony: house.userNotes.balcony,
+    supermarket: house.userNotes.supermarket,
+    s32: house.userNotes.s32,
+    importantComments: house.userNotes.importantComments,
+    comments: house.userNotes.comments,
+    preference: house.userNotes.preference,
+  });
+
   const handleInputNotes = (e) => {
     setMyNotes({ ...myNotes, [e.target.name]: e.target.value });
   };
@@ -24,6 +34,7 @@ export default function UserNotes({ house, onSaveNotes }) {
               />
               <input
                 name="tram"
+                value={myNotes.tram}
                 type="text"
                 maxLength="30"
                 placeholder="Travel time, tram#"
@@ -39,6 +50,7 @@ export default function UserNotes({ house, onSaveNotes }) {
               />
               <input
                 name="train"
+                value={myNotes.train}
                 type="text"
                 maxLength="30"
                 placeholder="Travel time, station, railway"
@@ -52,6 +64,7 @@ export default function UserNotes({ house, onSaveNotes }) {
               <img src="/images/sun.png" alt="sun" className="usernote-icons" />
               <input
                 name="balcony"
+                value={myNotes.balcony}
                 type="text"
                 maxLength="50"
                 placeholder="Balcony: North-facing..."
@@ -67,6 +80,7 @@ export default function UserNotes({ house, onSaveNotes }) {
               />
               <input
                 name="supermarket"
+                value={myNotes.supermarket}
                 type="text"
                 maxLength="80"
                 placeholder="Supermarket, travel time"
@@ -76,17 +90,18 @@ export default function UserNotes({ house, onSaveNotes }) {
             </div>
           </div>
         </div>
-        <ImportantNotes handleInputNotes={handleInputNotes} />
-        <OtherNotes handleInputNotes={handleInputNotes} />
+        <ImportantNotes handleInputNotes={handleInputNotes} myNotes={myNotes} />
+        <OtherNotes handleInputNotes={handleInputNotes} myNotes={myNotes} />
         <button type="submit" onClick={handleSaveNotes}>
           Save
         </button>
+        <hr />
       </div>
     </>
   );
 }
 
-function ImportantNotes({ handleInputNotes }) {
+function ImportantNotes({ handleInputNotes, myNotes }) {
   return (
     <div className="desc-note">
       <img
@@ -96,6 +111,7 @@ function ImportantNotes({ handleInputNotes }) {
       />
       <textarea
         name="importantComments"
+        value={myNotes.importantComments}
         maxLength="120"
         rows="3"
         cols="100"
@@ -107,7 +123,7 @@ function ImportantNotes({ handleInputNotes }) {
   );
 }
 
-function OtherNotes({ handleInputNotes }) {
+function OtherNotes({ handleInputNotes, myNotes }) {
   return (
     <div className="desc-note">
       <img
@@ -117,6 +133,7 @@ function OtherNotes({ handleInputNotes }) {
       />
       <textarea
         name="comments"
+        value={myNotes.comments}
         maxLength="200"
         rows="3"
         cols="100"

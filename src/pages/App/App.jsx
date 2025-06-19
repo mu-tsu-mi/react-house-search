@@ -51,7 +51,6 @@ export default function App() {
 
   // Load from Domain or domainHouses in domain-houses.js
   const getHouseFromDomainOrLocal = useCallback(() => {
-    // if (!newUrl) return;
     const getHouses = async () => {
       // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -72,7 +71,8 @@ export default function App() {
         // .map((house) => {
         .map((house) => JSON.parse(house))
         .map((item) => {
-          console.log("domain props: ", item.props.pageProps.componentProps);
+          // console.log("domain props: ", item.props.pageProps.componentProps);
+
           const listingSummary =
             item.props.pageProps.componentProps.listingSummary;
           const rootGraphQuery =
@@ -205,7 +205,7 @@ export default function App() {
           required
         />
         <button type="submit" id="get-house-button" onClick={handleAddUrls}>
-          Get more houses
+          Get a new house
         </button>
         {errorMsg && <div>{errorMsg}</div>}
       </form>
