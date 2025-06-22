@@ -104,7 +104,9 @@ export default function UserNotes({ house, onSaveNotes }) {
         <button type="submit" onClick={handleSaveNotes}>
           Save
         </button>
+        {/* Add delete button and functionality here */}
         {showSuccessMsg && <span className="success-msg">{successMsg}</span>}
+        {/* Remove hr after styling house card */}
         <hr />
       </div>
     </>

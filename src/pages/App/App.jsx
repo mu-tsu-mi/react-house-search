@@ -8,7 +8,7 @@ import HouseCard from "../../components/HouseCard/HouseCard";
 // import { houses } from '../../houses.js';
 
 const urls = [
-  "https://www.domain.com.au/1-2-hudson-street-coburg-vic-3058-2019983759",
+  // "https://www.domain.com.au/1-2-hudson-street-coburg-vic-3058-2019983759",
   // "https://www.domain.com.au/4-6-hudson-street-coburg-vic-3058-2019260956",
   // "https://www.domain.com.au/6-47-railway-place-west-flemington-vic-3031-2019990953",
   // "https://www.domain.com.au/3-7-9-rankins-road-kensington-vic-3031-2019933401",
@@ -17,33 +17,48 @@ const urls = [
   // "https://www.domain.com.au/16-5-industry-lane-coburg-vic-3058-2019962199",
 ];
 
+const localStorageKey = "houses";
+
 export default function App() {
-  const [listOfHouses, setListOfHouses] = useState([]);
+  const [listOfHouses, setListOfHouses] = useState(new Map());
   const [newUrl, setNewUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const fetchLocalStorage = () => {
-    const housesStoredInLocalStorage = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith("house-")) {
-        const house = localStorage.getItem(key);
-        if (house) {
-          housesStoredInLocalStorage.push(JSON.parse(house));
-        }
-      }
+  const fetchLocalStorageAsMap = () => {
+    // const housesStoredInLocalStorage = [];
+    // for (let i = 0; i < localStorage.length; i++) {
+    //   const key = localStorage.key(i);
+    //   if (key.startsWith("house-")) {
+    //     const house = localStorage.getItem(key);
+    //     if (house) {
+    //       housesStoredInLocalStorage.push(JSON.parse(house));
+    //     }
+    //   }
+    // }
+    // return housesStoredInLocalStorage;
+    const housesFromLocalStorage = JSON.parse(
+      localStorage.getItem(localStorageKey)
+    );
+    if (!housesFromLocalStorage) {
+      return new Map();
     }
-    return housesStoredInLocalStorage;
+    return new Map(housesFromLocalStorage);
   };
 
   // Load from local storage
   const loadFromLocalStorage = useCallback(() => {
-    const housesStoredInLocalStorage = fetchLocalStorage();
-    console.log("local storage: ", housesStoredInLocalStorage);
-    if (housesStoredInLocalStorage.length > 0) {
-      setListOfHouses(housesStoredInLocalStorage);
-    }
+    const housesStoredInLocalStorage = fetchLocalStorageAsMap();
+    setListOfHouses(housesStoredInLocalStorage);
   }, []);
+
+  // Save to local storage
+  const saveStateToLocalStorage = useCallback(() => {
+    //TODO: can I use [...]?
+    localStorage.setItem(
+      localStorageKey,
+      JSON.stringify(Array.from(listOfHouses.entries()))
+    );
+  }, [listOfHouses]);
 
   useEffect(() => {
     loadFromLocalStorage();
@@ -118,29 +133,35 @@ export default function App() {
         });
 
       const newHouses = parsedHouses.filter((parsedH) => {
-        const housesStoredInLocalStorage = fetchLocalStorage();
-        if (!housesStoredInLocalStorage) {
-          return false;
-        } else {
-          return !housesStoredInLocalStorage.some((storedH) => {
-            return parsedH.id === storedH.id;
-          });
-        }
+        return !listOfHouses.get(parsedH.id);
+        // const housesStoredInLocalStorage = fetchLocalStorageAsMap();
+        // if (!housesStoredInLocalStorage) {
+        //   return false;
+        // } else {
+        //   // return !housesStoredInLocalStorage.some((storedH) => {
+        //   //   return parsedH.id === storedH.id;
+        //   // });
+        //   // return !housesStoredInLocalStorage.get(parsedH.id);
+        // }
       });
 
       if (newHouses.length === 0) {
         return;
       } else {
-        newHouses.forEach((newH) =>
-          localStorage.setItem(`house-${newH.id}`, JSON.stringify(newH))
-        );
+        // newHouses.forEach((newH) =>
+        //   localStorage.setItem(`house-${newH.id}`, JSON.stringify(newH))
+        // );
+        newHouses.forEach((house) => {
+          listOfHouses.set(house.id, house);
+        });
+        saveStateToLocalStorage();
       }
 
       loadFromLocalStorage();
     };
 
     getHouses();
-  }, [loadFromLocalStorage]);
+  }, [loadFromLocalStorage, listOfHouses, saveStateToLocalStorage]);
 
   const handleAddUrls = (e) => {
     // Add new urls after checking for duplication
@@ -185,7 +206,9 @@ export default function App() {
       ...house,
       userNotes: { ...house.userNotes, ...notes },
     };
-    localStorage.setItem(`house-${house.id}`, JSON.stringify(updatedHouse));
+    //localStorage.setItem(`house-${house.id}`, JSON.stringify(updatedHouse));
+    listOfHouses.set(updatedHouse.id, updatedHouse);
+    saveStateToLocalStorage();
   };
 
   const handleUrlInput = (value) => {
@@ -207,10 +230,10 @@ export default function App() {
         <button type="submit" id="get-house-button" onClick={handleAddUrls}>
           Get a new house
         </button>
-        {errorMsg && <div>{errorMsg}</div>}
+        <div>{errorMsg}</div>
       </form>
       <div className="house-list">
-        {listOfHouses.map((house) => (
+        {Array.from(listOfHouses.values()).map((house) => (
           <HouseCard
             house={house}
             key={house.id}
