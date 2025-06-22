@@ -77,6 +77,7 @@ export default function App() {
 
       const houseData = dataArray.map((html) => {
         const $ = cheerio.load(html);
+        // data in JSON
         const housesFromTag = $("script[id='__NEXT_DATA__']").text();
         return housesFromTag;
       });
@@ -151,17 +152,18 @@ export default function App() {
         // newHouses.forEach((newH) =>
         //   localStorage.setItem(`house-${newH.id}`, JSON.stringify(newH))
         // );
+        // since it is Map, use .set: This does not update React state
         newHouses.forEach((house) => {
           listOfHouses.set(house.id, house);
         });
         saveStateToLocalStorage();
       }
-
-      loadFromLocalStorage();
+      // to update State, use setter. I need new Map() for React to notice Map is updated.
+      setListOfHouses(new Map(listOfHouses));
     };
 
     getHouses();
-  }, [loadFromLocalStorage, listOfHouses, saveStateToLocalStorage]);
+  }, [listOfHouses, saveStateToLocalStorage]);
 
   const handleAddUrls = (e) => {
     // Add new urls after checking for duplication
