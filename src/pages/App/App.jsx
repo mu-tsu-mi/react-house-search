@@ -210,6 +210,8 @@ export default function App() {
     };
     //localStorage.setItem(`house-${house.id}`, JSON.stringify(updatedHouse));
     listOfHouses.set(updatedHouse.id, updatedHouse);
+    // change state reference by new Map() for React
+    setListOfHouses(new Map(listOfHouses));
     saveStateToLocalStorage();
   };
 
