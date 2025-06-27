@@ -1,5 +1,5 @@
 :root {
-  --base: ##faf7f0;
+  --base: #faf7f0;
   --red: #b17457;
   /* --white: #faf7f0; */
   --note: #f9f1eb;
@@ -7,6 +7,7 @@
   --warm: #776b5d;
   --light: #b0a695;
   --success: #3e7a5e;
+  --green: #b7d7c2;
 }
 .App {
   display: flex;

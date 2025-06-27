@@ -44,10 +44,6 @@
 label {
   font-size: 1rem;
 }
-.inspection {
-  display: flex;
-  justify-content: center;
-}
 .action-buttons-wrapper {
   display: flex;
   justify-content: center;
@@ -68,4 +64,19 @@ label {
   color: var(--success);
   margin-left: 2rem;
   font-weight: bold;
+}
+.s32-button {
+  background-color: var(--light);
+  cursor: pointer;
+  border-radius: 0.4rem;
+  border-color: var(--light);
+  color: var(--note);
+}
+.s32-button-on {
+  background-color: var(--green);
+  color: var(--success);
+  font-weight: bold;
+  border-color: var(--green);
+  cursor: pointer;
+  border-radius: 0.4rem;
 }

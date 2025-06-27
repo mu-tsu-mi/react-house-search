@@ -18,6 +18,10 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
   const handleInputNotes = (e) => {
     setMyNotes({ ...myNotes, [e.target.name]: e.target.value });
   };
+  const handleS32 = (e) => {
+    e.preventDefault();
+    setMyNotes({ ...myNotes, s32: !myNotes.s32 });
+  };
 
   const handleSaveNotes = (e) => {
     e.preventDefault();
@@ -33,7 +37,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
 
   const handleSubmitDelete = (e) => {
     e.preventDefault();
-    //  add confirmation msg later
+    //  add confirmation msg 'are you sure..?' later
     handleDeleteHouse(house.id);
   };
 
@@ -47,6 +51,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 src="/images/tram.png"
                 alt="tram"
                 className="usernote-icons"
+                title="Travel time, tram#"
               />
               <input
                 name="tram"
@@ -63,6 +68,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 src="/images/train.png"
                 alt="train"
                 className="usernote-icons"
+                title="Travel time, station, railway"
               />
               <input
                 name="train"
@@ -77,7 +83,12 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
           </div>
           <div className="short-notes-pair">
             <div className="short-note">
-              <img src="/images/sun.png" alt="sun" className="usernote-icons" />
+              <img
+                src="/images/sun.png"
+                alt="sun"
+                className="usernote-icons"
+                title="Balcony: North-facing..."
+              />
               <input
                 name="balcony"
                 value={myNotes.balcony}
@@ -93,6 +104,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 src="/images/shopping-cart.png"
                 alt="supermarket"
                 className="usernote-icons"
+                title="Supermarket, travel time"
               />
               <input
                 name="supermarket"
@@ -103,6 +115,23 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 title="Supermarket, travel time"
                 onChange={handleInputNotes}
               />
+            </div>
+          </div>
+          <div className="short-notes-pair">
+            <div className="short-note">
+              <img
+                src="/images/document-7865347.png"
+                alt="documents"
+                className="usernote-icons"
+                title="Green: Received, Grey: No action yet"
+              />
+              <button
+                className={`${myNotes.s32 ? "s32-button-on" : "s32-button"}`}
+                title="Green: Received, Brown: No action yet"
+                onClick={handleS32}
+              >
+                Section 32: {myNotes.s32 ? `YES` : `Not yet`}
+              </button>
             </div>
           </div>
         </div>
@@ -116,7 +145,6 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
           >
             Save
           </button>
-          {/* Add delete button and functionality here */}
           <button
             className="action-button"
             type="submit"

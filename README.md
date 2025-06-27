@@ -83,3 +83,4 @@ https://thenounproject.com/icon/car-7897277/
 https://thenounproject.com/icon/triangle-flag-4773926/
 https://thenounproject.com/icon/pencil-7927074/
 https://thenounproject.com/icon/magnifying-glass-7563177/
+https://thenounproject.com/icon/document-7865347/
