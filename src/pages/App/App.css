@@ -36,11 +36,11 @@ form > #get-house-button {
   border-color: var(--warm);
   color: var(--note);
   padding: 0.3rem 3rem;
+  cursor: pointer;
 }
 form > #get-house-button:hover {
   background-color: var(--red);
   border-color: var(--red);
-  color: var(--note);
 }
 .url {
   margin-top: 0.2rem;

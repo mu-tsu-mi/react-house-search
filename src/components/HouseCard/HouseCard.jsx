@@ -1,7 +1,7 @@
 import "./HouseCard.css";
 import UserNotes from "../UserNotes/UserNotes";
 
-export default function HouseCard({ house, onSaveNotes }) {
+export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
   let propertyType;
   switch (house.propertyType) {
     case "APARTMENT_UNIT_FLAT":
@@ -67,7 +67,11 @@ export default function HouseCard({ house, onSaveNotes }) {
             </span>
           </div>
           <img src={house.propertyPhoto} alt="property-image" />
-          <UserNotes house={house} onSaveNotes={onSaveNotes} />
+          <UserNotes
+            house={house}
+            onSaveNotes={onSaveNotes}
+            handleDeleteHouse={handleDeleteHouse}
+          />
           <div className="inspection">
             <img
               src="/images/magnifying-glass-7563177.png"

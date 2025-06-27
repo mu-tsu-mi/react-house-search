@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./UserNotes.css";
 
-export default function UserNotes({ house, onSaveNotes }) {
+export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
   const [myNotes, setMyNotes] = useState({
     tram: house.userNotes.tram,
     train: house.userNotes.train,
@@ -30,6 +30,13 @@ export default function UserNotes({ house, onSaveNotes }) {
       }, 3000);
     }, 1000);
   };
+
+  const handleSubmitDelete = (e) => {
+    e.preventDefault();
+    //  add confirmation msg later
+    handleDeleteHouse(house.id);
+  };
+
   return (
     <>
       <div className="usernote">
@@ -101,11 +108,24 @@ export default function UserNotes({ house, onSaveNotes }) {
         </div>
         <ImportantNotes handleInputNotes={handleInputNotes} myNotes={myNotes} />
         <OtherNotes handleInputNotes={handleInputNotes} myNotes={myNotes} />
-        <button type="submit" onClick={handleSaveNotes}>
-          Save
-        </button>
-        {/* Add delete button and functionality here */}
-        {showSuccessMsg && <span className="success-msg">{successMsg}</span>}
+        <div className="action-buttons-wrapper">
+          <button
+            type="submit"
+            onClick={handleSaveNotes}
+            className="action-button"
+          >
+            Save
+          </button>
+          {/* Add delete button and functionality here */}
+          <button
+            className="action-button"
+            type="submit"
+            onClick={handleSubmitDelete}
+          >
+            Delete
+          </button>
+          {showSuccessMsg && <span className="success-msg">{successMsg}</span>}
+        </div>
         {/* Remove hr after styling house card */}
         <hr />
       </div>

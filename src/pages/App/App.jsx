@@ -215,8 +215,17 @@ export default function App() {
     saveStateToLocalStorage();
   };
 
-  const handleUrlInput = (value) => {
-    setNewUrl(value);
+  const handleDeleteHouse = (id) => {
+    /* Delete the house from the Map, update state(Use updatedMap to avoid using old state accidentally) 
+    then save the change in local storage. */
+    listOfHouses.delete(id);
+    const updatedMap = new Map(listOfHouses);
+    setListOfHouses(updatedMap);
+    saveStateToLocalStorage();
+  };
+
+  const handleUrlInput = (e) => {
+    setNewUrl(e.target.value);
   };
 
   return (
@@ -227,7 +236,7 @@ export default function App() {
           placeholder="Add URL"
           value={newUrl}
           pattern=".*\.domain\.com\.au.*"
-          onChange={(e) => handleUrlInput(e.target.value)}
+          onChange={handleUrlInput}
           className="url"
           required
         />
@@ -242,6 +251,7 @@ export default function App() {
             house={house}
             key={house.id}
             onSaveNotes={(notes) => onSaveNotes(house, notes)}
+            handleDeleteHouse={handleDeleteHouse}
           />
         ))}
       </div>

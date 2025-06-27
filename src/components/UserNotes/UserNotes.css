@@ -48,7 +48,21 @@ label {
   display: flex;
   justify-content: center;
 }
-
+.action-buttons-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.action-button {
+  cursor: pointer;
+  background-color: var(--dark);
+  border-color: var(--dark);
+  color: var(--note);
+}
+.action-button:hover {
+  background-color: var(--red);
+  border-color: var(--red);
+}
 .success-msg {
   font-size: 0.9rem;
   color: var(--success);
