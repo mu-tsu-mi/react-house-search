@@ -96,6 +96,7 @@ export default function App() {
           const inspection = item.props.pageProps.componentProps.inspection;
           const suburb = item.props.pageProps.componentProps.suburb;
           const listingId = item.props.pageProps.componentProps.listingId;
+          const listingUrl = item.props.pageProps.componentProps.listingUrl;
 
           // temporary houses data to reduce request
           // const listingSummary = house.listingSummary;
@@ -103,6 +104,7 @@ export default function App() {
           // const inspection = house.inspection;
           // const suburb = house.suburb;
           // const listingId = house.listingId;
+          // const listingUrl = house.listingUrl;
           const userNotes = {
             tram: "",
             train: "",
@@ -115,6 +117,7 @@ export default function App() {
           };
           return {
             id: listingId,
+            url: listingUrl,
             address: listingSummary.address,
             suburb: suburb,
             baths: listingSummary.baths,

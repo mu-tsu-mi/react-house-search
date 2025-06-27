@@ -48,7 +48,14 @@ export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
         <form>
           <div>
             <span className="property-type">{propertyType}</span>
-            <span>{house.address}</span>
+            <a
+              href={house.url}
+              title="Go to Domain's page"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <span>{house.address}</span>
+            </a>
           </div>
           {price(house.singlePrice, house.lowestPrice, house.highestPrice)}
           <div>Sale Type: {house.saleType}</div>

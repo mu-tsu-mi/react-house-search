@@ -1,6 +1,13 @@
 .house-card-wrapper {
   color: var(--dark);
 }
+.house-card-wrapper a {
+  text-decoration: none;
+  color: inherit;
+}
+.house-card-wrapper a:hover {
+  color: var(--light);
+}
 .usernote-icons {
   display: flex;
   width: 2rem;
