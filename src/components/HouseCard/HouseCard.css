@@ -5,7 +5,6 @@
   /* helps inner columns to strech vertically */
   flex-direction: column;
   min-height: 400px;
-  background-color: var(--base);
   border: solid var(--light);
   padding: 1rem;
 }
