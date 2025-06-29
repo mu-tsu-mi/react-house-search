@@ -8,6 +8,10 @@
 .house-card-wrapper a:hover {
   color: var(--light);
 }
+#property-photo {
+  width: 300px;
+  height: 200px;
+}
 .usernote-icons {
   display: flex;
   width: 2rem;
@@ -22,6 +26,7 @@
   border-width: 0.2rem;
   background-color: var(--note);
   border-color: var(--dark);
+  color: var(--dark);
   margin: 0 0.5rem 0;
 }
 .other-note {
@@ -29,6 +34,7 @@
   border-width: 0.2rem;
   background-color: var(--note);
   border-color: var(--note);
+  color: var(--dark);
   margin: 0 0.5rem 0;
 }
 .short-notes-wrapper {
@@ -42,6 +48,15 @@
 .short-note {
   display: flex;
 }
+.short-note input {
+  border-color: var(--note);
+  background-color: var(--note);
+  color: var(--dark);
+}
+.desc-note textarea {
+  flex-grow: 1;
+}
+
 .desc-note {
   display: flex;
 }

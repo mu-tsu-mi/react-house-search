@@ -7,12 +7,11 @@
   --warm: #776b5d;
   --light: #b0a695;
   --success: #3e7a5e;
-  --green: #b7d7c2;
+  --green: #c2dccb;
 }
 .App {
   display: flex;
   flex-direction: column;
-  width: 100vw;
   align-items: center;
   text-align: center;
   background-color: var(--base);
@@ -23,6 +22,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
 }
 
 .urls-to-add {

@@ -154,8 +154,6 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
           </button>
           {showSuccessMsg && <span className="success-msg">{successMsg}</span>}
         </div>
-        {/* Remove hr after styling house card */}
-        <hr />
       </div>
     </>
   );
@@ -174,7 +172,6 @@ function ImportantNotes({ handleInputNotes, myNotes }) {
         value={myNotes.importantComments}
         maxLength="120"
         rows="3"
-        cols="100"
         placeholder="Important points"
         className="important-note"
         onChange={handleInputNotes}
@@ -196,7 +193,6 @@ function OtherNotes({ handleInputNotes, myNotes }) {
         value={myNotes.comments}
         maxLength="200"
         rows="3"
-        cols="100"
         placeholder="Other things.."
         className="other-note"
         onChange={handleInputNotes}

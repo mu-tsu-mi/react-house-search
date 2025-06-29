@@ -1,6 +1,9 @@
 .house-card-wrapper {
   display: flex;
   flex-wrap: wrap;
+  /* background-color: var(--light); */
+  border: solid var(--light);
+  padding: 1rem;
 }
 .house-card-wrapper div {
   margin-bottom: 0.3rem;

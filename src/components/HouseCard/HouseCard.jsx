@@ -48,6 +48,8 @@ export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
         <form>
           <div>
             <span className="property-type">{propertyType}</span>
+          </div>
+          <div>
             <a
               href={house.url}
               title="Go to Domain's page"
@@ -73,7 +75,11 @@ export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
               {house.parking}
             </span>
           </div>
-          <img src={house.propertyPhoto} alt="property-image" />
+          <img
+            src={house.propertyPhoto}
+            alt="property-image"
+            id="property-photo"
+          />
           <UserNotes
             house={house}
             onSaveNotes={onSaveNotes}
