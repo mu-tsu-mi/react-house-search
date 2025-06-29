@@ -91,7 +91,7 @@ export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
               alt="magnifying-glass"
               className="magnifying-glass"
             />
-            <span>{inspectionSchedule(house)}</span>
+            <span id="inspection-sch">{inspectionSchedule(house)}</span>
           </div>
         </form>
       </div>

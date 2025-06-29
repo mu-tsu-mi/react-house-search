@@ -1,7 +1,11 @@
 .house-card-wrapper {
   display: flex;
   flex-wrap: wrap;
-  /* background-color: var(--light); */
+  flex: 1 1 300px;
+  /* helps inner columns to strech vertically */
+  flex-direction: column;
+  min-height: 400px;
+  background-color: var(--base);
   border: solid var(--light);
   padding: 1rem;
 }
@@ -32,4 +36,8 @@
 .inspection {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+#inspection-sch {
+  font-size: 1rem;
 }

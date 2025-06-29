@@ -16,6 +16,7 @@
   text-align: center;
   background-color: var(--base);
   color: var(--dark);
+  padding: 0 1rem;
 }
 .house-list {
   display: flex;
@@ -24,6 +25,10 @@
   justify-content: center;
   gap: 2rem;
   margin-bottom: 1rem;
+  width: 100%;
+  /* fixed height regardless of length of address */
+  align-items: stretch;
+  background-color: var(--base);
 }
 
 .urls-to-add {
