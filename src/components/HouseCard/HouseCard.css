@@ -1,11 +1,13 @@
 .house-card-wrapper {
   display: flex;
   flex-wrap: wrap;
-  flex: 1 1 300px;
+  flex: 0 1 300px;
   /* helps inner columns to strech vertically */
   flex-direction: column;
   min-height: 400px;
   border: solid var(--light);
+  border-width: 0.3rem;
+  border-radius: 2%;
   padding: 1rem;
 }
 .house-card-wrapper div {
@@ -39,4 +41,9 @@
 }
 #inspection-sch {
   font-size: 1rem;
+}
+@media (max-width: 500px) {
+  .house-card-wrapper {
+    flex: 1 1 300px;
+  }
 }

@@ -1,77 +1,66 @@
-# Getting Started with Create React App
+# My House Search Tool
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Thanks for visiting My House Search app. An app that has both Domain's property information and user's notes.
+I came up with this idea when I was frustrated not seeing all the information I cared about was not in one place.
 
-## Available Scripts
+## For fellow developers👋 -->
 
-In the project directory, you can run:
+This app uses local storage. The data is fetched from Domain website.
+I am currently using CORS anywhere so please enable cors anywhere first through the following url:
+https://cors-anywhere.herokuapp.com/corsdemo
 
-### `npm start`
+### Scripts
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+I used [Create React App](https://github.com/facebook/create-react-app). Please use the following.
+development mode: npm start
+test: npm test
+Build the app for production: npm run build
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<!-- # URL -->
 
-### `npm test`
+<!-- App Image -->
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Wireframes
 
-### `npm run build`
+![Wireframe](/public/images/readme/wireframe.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<!-- Update how to get data from and add an image here later -->
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Technologies Used
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Front end
 
-### `npm run eject`
+- React
+- HTML / CSS / JavaScript
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<!-- ### Back end -->
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Tools
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Git / Github
+- Trello board / Excalidraw
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# User Stories
 
-## Learn More
+As a user,
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### MVP
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- I want to see these information clearly: property type(apartment, townhouse), sale type (auction, etc), price, suburb, property specs(bathroom, etc), inspection schedule, sunlight direction, public transport(train/tram & time) and supermarket information.
+- I want to add an important note and a regular note.
+- I want to see if I have section 32 for the property or not.
+- I want to visit Domain website if I need to see more details.
+- I want to see if I inspected the property or not visually.
+- I want be able to delete properties that I am not interested anymore.
 
-### Code Splitting
+### Icebox
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- I want to archive houses that are sold/am not interested in anymore.
+- I want to mark houses with my preference (in my favourite order).
+- I want to be able to sort my list by suburbs.
 
-### Analyzing the Bundle Size
+### Many thanks to Noun Project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
----
-
-Noun Project / Icons
 https://thenounproject.com/icon/train-7899168/
 https://thenounproject.com/icon/tram-7874988/
 https://thenounproject.com/icon/smile-864201/
