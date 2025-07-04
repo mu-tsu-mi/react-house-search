@@ -3,7 +3,7 @@
 Thanks for visiting My House Search app. An app that has both Domain's property information and user's notes.
 I came up with this idea when I was frustrated not seeing all the information I cared about was not in one place.
 
-## For fellow developers👋 -->
+## For fellow developers👋
 
 This app uses local storage. The data is fetched from Domain website.
 I am currently using CORS anywhere so please enable cors anywhere first through the following url:
@@ -12,21 +12,22 @@ https://cors-anywhere.herokuapp.com/corsdemo
 ### Scripts
 
 I used [Create React App](https://github.com/facebook/create-react-app). Please use the following.
-development mode: npm start
-test: npm test
-Build the app for production: npm run build
+
+- development mode: npm start
+- test: npm test
+- Build the app for production: npm run build
 
 <!-- # URL -->
 
 <!-- App Image -->
 
-# Wireframes
+## Wireframes
 
 ![Wireframe](/public/images/readme/wireframe.png)
 
 <!-- Update how to get data from and add an image here later -->
 
-# Technologies Used
+## Technologies Used
 
 ### Front end
 
@@ -40,7 +41,7 @@ Build the app for production: npm run build
 - Git / Github
 - Trello board / Excalidraw
 
-# User Stories
+## User Stories
 
 As a user,
 

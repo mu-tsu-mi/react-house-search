@@ -67,6 +67,21 @@ export default function App() {
   // Load from Domain or domainHouses in domain-houses.js
   const getHouseFromDomainOrLocal = useCallback(() => {
     const getHouses = async () => {
+      // Get new houses from Domain via backend
+      // const getNewHouses = async () => {
+      //   const responses = await Promise.all(
+      //     urls.map((url) => {
+      //       return axios.get("/api/house", {
+      //         params: { url },
+      //       });
+      //     })
+      //   );
+      //   const backend = responses.map((res) => res.data);
+      //   console.log("backend", backend);
+      //   return backend;
+      // };
+      // const responses = getNewHouses();
+
       // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 
