@@ -4,6 +4,7 @@ import * as cheerio from "cheerio";
 import "./App.css";
 import HouseCard from "../../components/HouseCard/HouseCard";
 import { fetchLocalStorageAsMap, saveToLocalStorage } from "./localStorage";
+import { validateNewUrls } from "./urlCheck";
 
 const urls = [];
 
@@ -107,6 +108,20 @@ export default function App() {
           };
         });
 
+      // check duplication compared with the houses in local storage
+      const alreadyInLocalStorage = parsedHouses.filter((parsedH) =>
+        listOfHouses.get(parsedH.id)
+      );
+      if (alreadyInLocalStorage.length > 0) {
+        let errorMsgArr = [];
+        for (let i = 0; i < alreadyInLocalStorage.length; i++) {
+          errorMsgArr.push(
+            `This house is already in your list: ${alreadyInLocalStorage[i].id}`
+          );
+        }
+        setErrorMsg(errorMsgArr.join());
+      }
+
       const newHouses = parsedHouses.filter((parsedH) => {
         return !listOfHouses.get(parsedH.id);
       });
@@ -131,22 +146,13 @@ export default function App() {
     // Add new urls after checking for duplication
     e.preventDefault();
     setErrorMsg("");
-    const domainUrl = "domain.com.au";
+
     if (newUrl.length === 0) {
       setErrorMsg("Enter a URL");
       return;
     }
-    const newUrls = [newUrl];
 
-    // filter domain URLs only
-    const validUrls = newUrls.filter((url) => url.includes(domainUrl));
-    const invalidUrls = newUrls
-      .filter((url) => !url.includes(domainUrl))
-      .filter((url) => url !== "");
-
-    const duplicationCheck = new Set(validUrls);
-    const noDuplication = duplicationCheck.size === validUrls.length;
-
+    const { invalidUrls, noDuplication, validUrls } = validateNewUrls(newUrl);
     if (!noDuplication) {
       setErrorMsg("Please resubmit URLs without duplication");
       return;
