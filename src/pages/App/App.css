@@ -51,6 +51,14 @@ form > #get-house-button:hover {
   margin-top: 0.2rem;
   width: 30rem;
 }
+#error-message {
+  font-weight: bold;
+  font-style: oblique;
+  padding-top: 0.5rem;
+  font-size: 1.2rem;
+  border-style: none none dashed none;
+  border-bottom-color: var(--red);
+}
 
 /* .App-link {
   color: #61dafb;

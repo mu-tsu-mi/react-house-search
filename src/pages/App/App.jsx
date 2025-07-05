@@ -1,14 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import * as cheerio from "cheerio";
 import "./App.css";
 import HouseCard from "../../components/HouseCard/HouseCard";
 import { fetchLocalStorageAsMap, saveToLocalStorage } from "./localStorage";
 import { validateNewUrls } from "./urlCheck";
+import { fetchNewHousesFromDomain } from "./newHouses";
+import { duplicationCheckLocalStorage } from "./duplication-localStorage";
 
 const urls = [];
-
-// const localStorageKey = "houses";
 
 export default function App() {
   const [listOfHouses, setListOfHouses] = useState(new Map());
@@ -33,94 +31,18 @@ export default function App() {
   }, [loadFromLocalStorage]);
 
   // Load from Domain
-  const getHouseFromDomainOrLocal = useCallback(() => {
+  const getHouseFromDomain = useCallback(() => {
     const getHouses = async () => {
-      // Get new houses from Domain via backend
-      // const getNewHouses = async () => {
-      //   const responses = await Promise.all(
-      //     urls.map((url) => {
-      //       return axios.get("/api/house", {
-      //         params: { url },
-      //       });
-      //     })
-      //   );
-      //   const backend = responses.map((res) => res.data);
-      //   console.log("backend", backend);
-      //   return backend;
-      // };
-      // const responses = getNewHouses();
-
-      // click on the button to enable cors anywhere : https://cors-anywhere.herokuapp.com/corsdemo
-      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-
-      const responses = await Promise.all(
-        urls.map((url) => axios.get(proxyUrl + url))
-      );
-      const dataArray = responses.map((res) => res.data);
-
-      const houseData = dataArray.map((html) => {
-        const $ = cheerio.load(html);
-        // data in JSON
-        const housesFromTag = $("script[id='__NEXT_DATA__']").text();
-        return housesFromTag;
-      });
-
-      const parsedHouses = houseData
-        .map((house) => JSON.parse(house))
-        .map((item) => {
-          const listingSummary =
-            item.props.pageProps.componentProps.listingSummary;
-          const rootGraphQuery =
-            item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2;
-          const inspection = item.props.pageProps.componentProps.inspection;
-          const suburb = item.props.pageProps.componentProps.suburb;
-          const listingId = item.props.pageProps.componentProps.listingId;
-          const listingUrl = item.props.pageProps.componentProps.listingUrl;
-
-          const userNotes = {
-            tram: "",
-            train: "",
-            balcony: "",
-            supermarket: [],
-            s32: false,
-            importantComments: [],
-            comments: [],
-            preference: null,
-          };
-          return {
-            id: listingId,
-            url: listingUrl,
-            address: listingSummary.address,
-            suburb: suburb,
-            baths: listingSummary.baths,
-            beds: listingSummary.beds,
-            parking: listingSummary.parking,
-            saleType: rootGraphQuery.saleMethod,
-            propertyType: rootGraphQuery.propertyTypes[0],
-            lowestPrice: rootGraphQuery.priceDetails.rawValues.from,
-            highestPrice: rootGraphQuery.priceDetails.rawValues.to,
-            singlePrice: rootGraphQuery.priceDetails.rawValues.exactPriceV2,
-            propertyPhoto: rootGraphQuery.smallMedia[0].url,
-            privateInspectionBoolean: inspection.appointmentOnly,
-            // array .openingDateTime, .closingDateTime and .time
-            inspectionSchedule: inspection.inspectionTimes,
-            userNotes: userNotes,
-          };
-        });
+      const parsedHouses = await fetchNewHousesFromDomain(urls);
 
       // check duplication compared with the houses in local storage
       const alreadyInLocalStorage = parsedHouses.filter((parsedH) =>
         listOfHouses.get(parsedH.id)
       );
-      if (alreadyInLocalStorage.length > 0) {
-        let errorMsgArr = [];
-        for (let i = 0; i < alreadyInLocalStorage.length; i++) {
-          errorMsgArr.push(
-            `This house is already in your list: ${alreadyInLocalStorage[i].id}`
-          );
-        }
-        setErrorMsg(errorMsgArr.join());
-      }
+      const msgDuplicationLS = duplicationCheckLocalStorage(
+        alreadyInLocalStorage
+      );
+      setErrorMsg(msgDuplicationLS);
 
       const newHouses = parsedHouses.filter((parsedH) => {
         return !listOfHouses.get(parsedH.id);
@@ -129,7 +51,7 @@ export default function App() {
       if (newHouses.length === 0) {
         return;
       } else {
-        // since it is Map, use .set: This does not update React state
+        // since it is Map, use .set: This does not update React state(updating the existing Map)
         newHouses.forEach((house) => {
           listOfHouses.set(house.id, house);
         });
@@ -166,7 +88,7 @@ export default function App() {
       validUrls.forEach((newUrl) => urls.push(newUrl));
     }
 
-    getHouseFromDomainOrLocal();
+    getHouseFromDomain();
     setNewUrl("");
   };
 
@@ -211,7 +133,7 @@ export default function App() {
         <button type="submit" id="get-house-button" onClick={handleAddUrls}>
           Get a new house
         </button>
-        <div>{errorMsg}</div>
+        <div id="error-message">{errorMsg}</div>
       </form>
       <div className="house-list">
         {Array.from(listOfHouses.values()).map((house) => (
