@@ -2,20 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import "./App.css";
-// import { domainHouses } from "../../domain-houses";
 import HouseCard from "../../components/HouseCard/HouseCard";
-// const jmespath = require('jmespath');
-// import { houses } from '../../houses.js';
 
-const urls = [
-  // "https://www.domain.com.au/1-2-hudson-street-coburg-vic-3058-2019983759",
-  // "https://www.domain.com.au/4-6-hudson-street-coburg-vic-3058-2019260956",
-  // "https://www.domain.com.au/6-47-railway-place-west-flemington-vic-3031-2019990953",
-  // "https://www.domain.com.au/3-7-9-rankins-road-kensington-vic-3031-2019933401",
-  // "https://www.domain.com.au/3-85-tinning-street-brunswick-vic-3056-2019675167",
-  // "https://www.domain.com.au/516-300-victoria-street-brunswick-vic-3056-2019304279",
-  // "https://www.domain.com.au/16-5-industry-lane-coburg-vic-3058-2019962199",
-];
+const urls = [];
 
 const localStorageKey = "houses";
 
@@ -25,17 +14,6 @@ export default function App() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const fetchLocalStorageAsMap = () => {
-    // const housesStoredInLocalStorage = [];
-    // for (let i = 0; i < localStorage.length; i++) {
-    //   const key = localStorage.key(i);
-    //   if (key.startsWith("house-")) {
-    //     const house = localStorage.getItem(key);
-    //     if (house) {
-    //       housesStoredInLocalStorage.push(JSON.parse(house));
-    //     }
-    //   }
-    // }
-    // return housesStoredInLocalStorage;
     const housesFromLocalStorage = JSON.parse(
       localStorage.getItem(localStorageKey)
     );
@@ -64,7 +42,7 @@ export default function App() {
     loadFromLocalStorage();
   }, [loadFromLocalStorage]);
 
-  // Load from Domain or domainHouses in domain-houses.js
+  // Load from Domain
   const getHouseFromDomainOrLocal = useCallback(() => {
     const getHouses = async () => {
       // Get new houses from Domain via backend
@@ -82,7 +60,7 @@ export default function App() {
       // };
       // const responses = getNewHouses();
 
-      // click on the button : https://cors-anywhere.herokuapp.com/corsdemo
+      // click on the button to enable cors anywhere : https://cors-anywhere.herokuapp.com/corsdemo
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 
       const responses = await Promise.all(
@@ -97,13 +75,9 @@ export default function App() {
         return housesFromTag;
       });
 
-      // const houseData = domainHouses;
       const parsedHouses = houseData
-        // .map((house) => {
         .map((house) => JSON.parse(house))
         .map((item) => {
-          // console.log("domain props: ", item.props.pageProps.componentProps);
-
           const listingSummary =
             item.props.pageProps.componentProps.listingSummary;
           const rootGraphQuery =
@@ -113,13 +87,6 @@ export default function App() {
           const listingId = item.props.pageProps.componentProps.listingId;
           const listingUrl = item.props.pageProps.componentProps.listingUrl;
 
-          // temporary houses data to reduce request
-          // const listingSummary = house.listingSummary;
-          // const rootGraphQuery = house.rootGraphQuery.listingByIdV2;
-          // const inspection = house.inspection;
-          // const suburb = house.suburb;
-          // const listingId = house.listingId;
-          // const listingUrl = house.listingUrl;
           const userNotes = {
             tram: "",
             train: "",
@@ -153,23 +120,11 @@ export default function App() {
 
       const newHouses = parsedHouses.filter((parsedH) => {
         return !listOfHouses.get(parsedH.id);
-        // const housesStoredInLocalStorage = fetchLocalStorageAsMap();
-        // if (!housesStoredInLocalStorage) {
-        //   return false;
-        // } else {
-        //   // return !housesStoredInLocalStorage.some((storedH) => {
-        //   //   return parsedH.id === storedH.id;
-        //   // });
-        //   // return !housesStoredInLocalStorage.get(parsedH.id);
-        // }
       });
 
       if (newHouses.length === 0) {
         return;
       } else {
-        // newHouses.forEach((newH) =>
-        //   localStorage.setItem(`house-${newH.id}`, JSON.stringify(newH))
-        // );
         // since it is Map, use .set: This does not update React state
         newHouses.forEach((house) => {
           listOfHouses.set(house.id, house);
