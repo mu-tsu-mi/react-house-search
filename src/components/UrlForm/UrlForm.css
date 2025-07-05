@@ -1,0 +1,30 @@
+.urls-to-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+}
+form > #get-house-button {
+  margin-top: 0.5rem;
+  background-color: var(--warm);
+  border-color: var(--warm);
+  color: var(--note);
+  padding: 0.3rem 3rem;
+  cursor: pointer;
+}
+form > #get-house-button:hover {
+  background-color: var(--red);
+  border-color: var(--red);
+}
+.url {
+  margin-top: 0.2rem;
+  width: 30rem;
+}
+#error-message {
+  font-weight: bold;
+  font-style: oblique;
+  padding-top: 0.5rem;
+  font-size: 1.2rem;
+  border-style: none none dashed none;
+  border-bottom-color: var(--red);
+}

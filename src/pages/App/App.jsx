@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import "./App.css";
+import UrlForm from "../../components/UrlForm/UrlForm";
 import HouseCard from "../../components/HouseCard/HouseCard";
 import { fetchLocalStorageAsMap, saveToLocalStorage } from "./localStorage";
 import { validateNewUrls } from "./urlCheck";
@@ -120,21 +121,12 @@ export default function App() {
 
   return (
     <div className="App">
-      <form type="submit" className="urls-to-add">
-        <input
-          type="url"
-          placeholder="Add URL"
-          value={newUrl}
-          pattern=".*\.domain\.com\.au.*"
-          onChange={handleUrlInput}
-          className="url"
-          required
-        />
-        <button type="submit" id="get-house-button" onClick={handleAddUrls}>
-          Get a new house
-        </button>
-        <div id="error-message">{errorMsg}</div>
-      </form>
+      <UrlForm
+        newUrl={newUrl}
+        handleUrlInput={handleUrlInput}
+        handleAddUrls={handleAddUrls}
+        errorMsg={errorMsg}
+      />
       <div className="house-list">
         {Array.from(listOfHouses.values()).map((house) => (
           <HouseCard
