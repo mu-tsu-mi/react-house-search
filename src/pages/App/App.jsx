@@ -3,25 +3,16 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import "./App.css";
 import HouseCard from "../../components/HouseCard/HouseCard";
+import { fetchLocalStorageAsMap, saveToLocalStorage } from "./localStorage";
 
 const urls = [];
 
-const localStorageKey = "houses";
+// const localStorageKey = "houses";
 
 export default function App() {
   const [listOfHouses, setListOfHouses] = useState(new Map());
   const [newUrl, setNewUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
-  const fetchLocalStorageAsMap = () => {
-    const housesFromLocalStorage = JSON.parse(
-      localStorage.getItem(localStorageKey)
-    );
-    if (!housesFromLocalStorage) {
-      return new Map();
-    }
-    return new Map(housesFromLocalStorage);
-  };
 
   // Load from local storage
   const loadFromLocalStorage = useCallback(() => {
@@ -31,11 +22,9 @@ export default function App() {
 
   // Save to local storage
   const saveStateToLocalStorage = useCallback(() => {
+    const arr = Array.from(listOfHouses.entries());
     //TODO: can I use [...]?
-    localStorage.setItem(
-      localStorageKey,
-      JSON.stringify(Array.from(listOfHouses.entries()))
-    );
+    saveToLocalStorage(arr);
   }, [listOfHouses]);
 
   useEffect(() => {
