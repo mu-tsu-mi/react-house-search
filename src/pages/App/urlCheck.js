@@ -11,6 +11,6 @@ export const validateNewUrls = (url) => {
 
   const duplicationCheck = new Set(validUrls);
   // check duplication in the new urls
-  const noDuplication = duplicationCheck.size === validUrls.length;
-  return { invalidUrls, noDuplication, validUrls };
+  const hasDuplication = duplicationCheck.size !== validUrls.length;
+  return { invalidUrls, hasDuplication, validUrls };
 };

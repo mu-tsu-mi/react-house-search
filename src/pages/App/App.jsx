@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import "./App.css";
-import UrlForm from "../../components/UrlForm/UrlForm";
+import DomainScraperUrlForm from "../../components/DomainScraperUrlForm/DomainScraperUrlForm";
 import HouseCard from "../../components/HouseCard/HouseCard";
 import { fetchLocalStorageAsMap, saveToLocalStorage } from "./localStorage";
 import { validateNewUrls } from "./urlCheck";
@@ -75,8 +75,8 @@ export default function App() {
       return;
     }
 
-    const { invalidUrls, noDuplication, validUrls } = validateNewUrls(newUrl);
-    if (!noDuplication) {
+    const { invalidUrls, hasDuplication, validUrls } = validateNewUrls(newUrl);
+    if (hasDuplication) {
       setErrorMsg("Please resubmit URLs without duplication");
       return;
     }
@@ -85,7 +85,7 @@ export default function App() {
       setErrorMsg("URL must be a Domain property page");
       return;
     }
-    if (noDuplication) {
+    if (!hasDuplication) {
       validUrls.forEach((newUrl) => urls.push(newUrl));
     }
 
@@ -121,7 +121,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <UrlForm
+      <DomainScraperUrlForm
         newUrl={newUrl}
         handleUrlInput={handleUrlInput}
         handleAddUrls={handleAddUrls}
