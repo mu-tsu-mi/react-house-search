@@ -20,9 +20,9 @@ export default function DomainScraperUrlForm({
       <button type="submit" id="get-house-button" onClick={handleAddUrls}>
         Get a new house
       </button>
-      <label for="url" id="error-message">
+      <span id="error-message" role="alert">
         {errorMsg}
-      </label>
+      </span>
     </form>
   );
 }

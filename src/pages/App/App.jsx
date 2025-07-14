@@ -85,9 +85,7 @@ export default function App() {
       setErrorMsg("URL must be a Domain property page");
       return;
     }
-    if (!hasDuplication) {
-      validUrls.forEach((newUrl) => urls.push(newUrl));
-    }
+    validUrls.forEach((newUrl) => urls.push(newUrl));
 
     getHouseFromDomain();
     setNewUrl("");
