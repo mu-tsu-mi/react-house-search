@@ -1,27 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import * as cheerio from "cheerio";
 import "./App.css";
+import DomainScraperUrlForm from "../../components/DomainScraperUrlForm/DomainScraperUrlForm";
 import HouseCard from "../../components/HouseCard/HouseCard";
+import { fetchLocalStorageAsMap, saveToLocalStorage } from "./localStorage";
+import { validateNewUrls } from "./urlCheck";
+import { fetchNewHousesFromDomain } from "./newHouses";
+import { duplicationCheckLocalStorage } from "./duplication-localStorage";
 
 const urls = [];
-
-const localStorageKey = "houses";
 
 export default function App() {
   const [listOfHouses, setListOfHouses] = useState(new Map());
   const [newUrl, setNewUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
-  const fetchLocalStorageAsMap = () => {
-    const housesFromLocalStorage = JSON.parse(
-      localStorage.getItem(localStorageKey)
-    );
-    if (!housesFromLocalStorage) {
-      return new Map();
-    }
-    return new Map(housesFromLocalStorage);
-  };
 
   // Load from local storage
   const loadFromLocalStorage = useCallback(() => {
@@ -31,11 +22,9 @@ export default function App() {
 
   // Save to local storage
   const saveStateToLocalStorage = useCallback(() => {
+    const arr = Array.from(listOfHouses.entries());
     //TODO: can I use [...]?
-    localStorage.setItem(
-      localStorageKey,
-      JSON.stringify(Array.from(listOfHouses.entries()))
-    );
+    saveToLocalStorage(arr);
   }, [listOfHouses]);
 
   useEffect(() => {
@@ -43,80 +32,18 @@ export default function App() {
   }, [loadFromLocalStorage]);
 
   // Load from Domain
-  const getHouseFromDomainOrLocal = useCallback(() => {
+  const getHouseFromDomain = useCallback(() => {
     const getHouses = async () => {
-      // Get new houses from Domain via backend
-      // const getNewHouses = async () => {
-      //   const responses = await Promise.all(
-      //     urls.map((url) => {
-      //       return axios.get("/api/house", {
-      //         params: { url },
-      //       });
-      //     })
-      //   );
-      //   const backend = responses.map((res) => res.data);
-      //   console.log("backend", backend);
-      //   return backend;
-      // };
-      // const responses = getNewHouses();
+      const parsedHouses = await fetchNewHousesFromDomain(urls);
 
-      // click on the button to enable cors anywhere : https://cors-anywhere.herokuapp.com/corsdemo
-      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-
-      const responses = await Promise.all(
-        urls.map((url) => axios.get(proxyUrl + url))
+      // check duplication compared with the houses in local storage
+      const alreadyInLocalStorage = parsedHouses.filter((parsedH) =>
+        listOfHouses.get(parsedH.id)
       );
-      const dataArray = responses.map((res) => res.data);
-
-      const houseData = dataArray.map((html) => {
-        const $ = cheerio.load(html);
-        // data in JSON
-        const housesFromTag = $("script[id='__NEXT_DATA__']").text();
-        return housesFromTag;
-      });
-
-      const parsedHouses = houseData
-        .map((house) => JSON.parse(house))
-        .map((item) => {
-          const listingSummary =
-            item.props.pageProps.componentProps.listingSummary;
-          const rootGraphQuery =
-            item.props.pageProps.componentProps.rootGraphQuery.listingByIdV2;
-          const inspection = item.props.pageProps.componentProps.inspection;
-          const suburb = item.props.pageProps.componentProps.suburb;
-          const listingId = item.props.pageProps.componentProps.listingId;
-          const listingUrl = item.props.pageProps.componentProps.listingUrl;
-
-          const userNotes = {
-            tram: "",
-            train: "",
-            balcony: "",
-            supermarket: [],
-            s32: false,
-            importantComments: [],
-            comments: [],
-            preference: null,
-          };
-          return {
-            id: listingId,
-            url: listingUrl,
-            address: listingSummary.address,
-            suburb: suburb,
-            baths: listingSummary.baths,
-            beds: listingSummary.beds,
-            parking: listingSummary.parking,
-            saleType: rootGraphQuery.saleMethod,
-            propertyType: rootGraphQuery.propertyTypes[0],
-            lowestPrice: rootGraphQuery.priceDetails.rawValues.from,
-            highestPrice: rootGraphQuery.priceDetails.rawValues.to,
-            singlePrice: rootGraphQuery.priceDetails.rawValues.exactPriceV2,
-            propertyPhoto: rootGraphQuery.smallMedia[0].url,
-            privateInspectionBoolean: inspection.appointmentOnly,
-            // array .openingDateTime, .closingDateTime and .time
-            inspectionSchedule: inspection.inspectionTimes,
-            userNotes: userNotes,
-          };
-        });
+      const msgDuplicationLS = duplicationCheckLocalStorage(
+        alreadyInLocalStorage
+      );
+      setErrorMsg(msgDuplicationLS);
 
       const newHouses = parsedHouses.filter((parsedH) => {
         return !listOfHouses.get(parsedH.id);
@@ -125,7 +52,7 @@ export default function App() {
       if (newHouses.length === 0) {
         return;
       } else {
-        // since it is Map, use .set: This does not update React state
+        // since it is Map, use .set: This does not update React state(updating the existing Map)
         newHouses.forEach((house) => {
           listOfHouses.set(house.id, house);
         });
@@ -142,23 +69,14 @@ export default function App() {
     // Add new urls after checking for duplication
     e.preventDefault();
     setErrorMsg("");
-    const domainUrl = "domain.com.au";
+
     if (newUrl.length === 0) {
       setErrorMsg("Enter a URL");
       return;
     }
-    const newUrls = [newUrl];
 
-    // filter domain URLs only
-    const validUrls = newUrls.filter((url) => url.includes(domainUrl));
-    const invalidUrls = newUrls
-      .filter((url) => !url.includes(domainUrl))
-      .filter((url) => url !== "");
-
-    const duplicationCheck = new Set(validUrls);
-    const noDuplication = duplicationCheck.size === validUrls.length;
-
-    if (!noDuplication) {
+    const { invalidUrls, hasDuplication, validUrls } = validateNewUrls(newUrl);
+    if (hasDuplication) {
       setErrorMsg("Please resubmit URLs without duplication");
       return;
     }
@@ -167,11 +85,9 @@ export default function App() {
       setErrorMsg("URL must be a Domain property page");
       return;
     }
-    if (noDuplication) {
-      validUrls.forEach((newUrl) => urls.push(newUrl));
-    }
+    validUrls.forEach((newUrl) => urls.push(newUrl));
 
-    getHouseFromDomainOrLocal();
+    getHouseFromDomain();
     setNewUrl("");
   };
 
@@ -203,21 +119,12 @@ export default function App() {
 
   return (
     <div className="App">
-      <form type="submit" className="urls-to-add">
-        <input
-          type="url"
-          placeholder="Add URL"
-          value={newUrl}
-          pattern=".*\.domain\.com\.au.*"
-          onChange={handleUrlInput}
-          className="url"
-          required
-        />
-        <button type="submit" id="get-house-button" onClick={handleAddUrls}>
-          Get a new house
-        </button>
-        <div>{errorMsg}</div>
-      </form>
+      <DomainScraperUrlForm
+        newUrl={newUrl}
+        handleUrlInput={handleUrlInput}
+        handleAddUrls={handleAddUrls}
+        errorMsg={errorMsg}
+      />
       <div className="house-list">
         {Array.from(listOfHouses.values()).map((house) => (
           <HouseCard
