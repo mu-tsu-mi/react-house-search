@@ -45,7 +45,7 @@ export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
   return (
     <>
       <div className="house-card-wrapper">
-        <form>
+        <form className="house-card-form">
           <div>
             <span className="property-type">{propertyType}</span>
           </div>

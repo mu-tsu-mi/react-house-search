@@ -8,7 +8,11 @@
   border: solid var(--light);
   border-width: 0.3rem;
   border-radius: 2%;
+  margin: 0 auto;
   padding: 1rem;
+}
+.house-card-form {
+  line-height: 2rem;
 }
 .house-card-wrapper div {
   margin-bottom: 0.3rem;
@@ -42,7 +46,8 @@
 #inspection-sch {
   font-size: 1rem;
 }
-@media (max-width: 500px) {
+/* Improve for mobile screens */
+@media (max-width: 950px) {
   .house-card-wrapper {
     flex: 1 1 300px;
   }

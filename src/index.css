@@ -1,3 +1,16 @@
+:root {
+  --base-font-size: 1.2rem;
+  --base: #faf7f0;
+  --red: #b17457;
+  /* --white: #faf7f0; */
+  --note: #f9f1eb;
+  --dark: #4a4947;
+  --warm: #776b5d;
+  --light: #b0a695;
+  --success: #3e7a5e;
+  --green: #c2dccb;
+}
+
 *,
 *:before,
 *:after {
@@ -10,12 +23,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 1.5rem;
-  height: 100vh;
+  font-size: var(--base-font-size);
+  /* height: 100vh; */
   background-color: var(--base);
 }
-
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-} */

@@ -1,32 +1,27 @@
-:root {
-  --base: #faf7f0;
-  --red: #b17457;
-  /* --white: #faf7f0; */
-  --note: #f9f1eb;
-  --dark: #4a4947;
-  --warm: #776b5d;
-  --light: #b0a695;
-  --success: #3e7a5e;
-  --green: #c2dccb;
-}
 .App {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   color: var(--dark);
-  padding: 0 1rem;
+  padding: 1rem;
 }
 .house-list {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
   gap: 2rem;
   margin-bottom: 1rem;
-  width: 100%;
+  /* width: 100%; */
   /* fixed height regardless of length of address */
   align-items: stretch;
+}
+
+@media (max-width: 950px) {
+  /* :root {
+    --base-font-size: 1.5rem;
+  } */
 }
 
 /* @keyframes App-logo-spin {
