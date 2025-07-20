@@ -2,7 +2,7 @@ const localStorageKey = "houses";
 
 export const fetchLocalStorageAsMap = () => {
   const housesFromLocalStorage = JSON.parse(
-    localStorage.getItem(localStorageKey)
+    localStorage.getItem(localStorageKey) ?? ""
   );
   if (!housesFromLocalStorage) {
     return new Map();
