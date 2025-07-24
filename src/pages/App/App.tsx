@@ -1,16 +1,62 @@
-import { useState, useEffect, useCallback } from "react";
-import "./App.css";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  FormEvent,
+  ChangeEvent,
+} from "react";
 import DomainScraperUrlForm from "../../components/DomainScraperUrlForm/DomainScraperUrlForm";
 import HouseCard from "../../components/HouseCard/HouseCard";
-import { fetchLocalStorageAsMap, saveToLocalStorage } from "./localStorage";
-import { validateNewUrls } from "./urlCheck";
-import { fetchNewHousesFromDomain } from "./newHouses";
+import "./App.css";
 import { duplicationCheckLocalStorage } from "./duplication-localStorage";
+import { fetchLocalStorageAsMap, saveToLocalStorage } from "./localStorage";
+import { fetchNewHousesFromDomain } from "./newHouses";
+import { validateNewUrls } from "./urlCheck";
 
-const urls = [];
+const urls: string[] = [];
+
+export interface House {
+  id: number;
+  url: string;
+  address: string;
+  suburb: string;
+  baths: number;
+  beds: number;
+  parking: number;
+  saleType: string;
+  propertyType: string;
+  lowestPrice: number;
+  highestPrice: number;
+  singlePrice: number | null;
+  propertyPhoto: string;
+  privateInspectionBoolean: boolean;
+  inspectionSchedule: InspectionSchedule[];
+  userNotes: UserNotes;
+}
+
+export type InspectionSchedule = {
+  dayOfWeek: string;
+  day: string;
+  month: string;
+  id: string;
+  openingDateTime: string;
+  time: string;
+};
+
+interface UserNotes {
+  balcony: string;
+  comments: string;
+  importantComments: string;
+  s32: boolean;
+  supermarket: string;
+  train: string;
+  tram: string;
+}
 
 export default function App() {
-  const [listOfHouses, setListOfHouses] = useState(new Map());
+  const [listOfHouses, setListOfHouses] = useState<Map<number, House>>(
+    new Map()
+  );
   const [newUrl, setNewUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -37,7 +83,7 @@ export default function App() {
       const parsedHouses = await fetchNewHousesFromDomain(urls);
 
       // check duplication compared with the houses in local storage
-      const alreadyInLocalStorage = parsedHouses.filter((parsedH) =>
+      const alreadyInLocalStorage: House[] = parsedHouses.filter((parsedH) =>
         listOfHouses.get(parsedH.id)
       );
       const msgDuplicationLS = duplicationCheckLocalStorage(
@@ -65,7 +111,7 @@ export default function App() {
     getHouses();
   }, [listOfHouses, saveStateToLocalStorage]);
 
-  const handleAddUrls = (e) => {
+  const handleAddUrls = (e: FormEvent<HTMLFormElement>) => {
     // Add new urls after checking for duplication
     e.preventDefault();
     setErrorMsg("");
@@ -91,7 +137,7 @@ export default function App() {
     setNewUrl("");
   };
 
-  const onSaveNotes = (house, notes) => {
+  const onSaveNotes = (house: House, notes: House["userNotes"]) => {
     // local storage
     const updatedHouse = {
       ...house,
@@ -104,7 +150,7 @@ export default function App() {
     saveStateToLocalStorage();
   };
 
-  const handleDeleteHouse = (id) => {
+  const handleDeleteHouse = (id: number) => {
     /* Delete the house from the Map, update state(Use updatedMap to avoid using old state accidentally) 
     then save the change in local storage. */
     listOfHouses.delete(id);
@@ -113,7 +159,7 @@ export default function App() {
     saveStateToLocalStorage();
   };
 
-  const handleUrlInput = (e) => {
+  const handleUrlInput = (e: ChangeEvent<HTMLInputElement>) => {
     setNewUrl(e.target.value);
   };
 
@@ -130,7 +176,9 @@ export default function App() {
           <HouseCard
             house={house}
             key={house.id}
-            onSaveNotes={(notes) => onSaveNotes(house, notes)}
+            onSaveNotes={(notes: House["userNotes"]) =>
+              onSaveNotes(house, notes)
+            }
             handleDeleteHouse={handleDeleteHouse}
           />
         ))}

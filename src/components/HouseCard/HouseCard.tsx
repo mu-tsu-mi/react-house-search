@@ -1,8 +1,9 @@
 import "./HouseCard.css";
+import { House } from "../../pages/App/App";
 import UserNotes from "../UserNotes/UserNotes";
 
 export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
-  let propertyType;
+  let propertyType: House["propertyType"];
   switch (house.propertyType) {
     case "APARTMENT_UNIT_FLAT":
       propertyType = "Apartment";
@@ -17,7 +18,11 @@ export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
       propertyType = "Unknown";
   }
 
-  const price = (pr, low, high) => {
+  const price = (
+    pr: House["singlePrice"],
+    low: House["lowestPrice"],
+    high: House["highestPrice"]
+  ) => {
     if (!pr && !low && !high) {
       return <div>no price to display</div>;
     } else if (!pr) {
@@ -31,7 +36,7 @@ export default function HouseCard({ house, onSaveNotes, handleDeleteHouse }) {
     }
   };
 
-  const inspectionSchedule = (house) => {
+  const inspectionSchedule = (house: House) => {
     if (house.privateInspectionBoolean) {
       return "Book a private inspection";
     }

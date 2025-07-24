@@ -1,6 +1,6 @@
 const domainUrl = "domain.com.au";
 
-export const validateNewUrls = (url) => {
+export const validateNewUrls = (url: string) => {
   const newUrls = [url];
 
   // filter domain URLs only

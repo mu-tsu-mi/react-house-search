@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import "./UserNotes.css";
 
 export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
@@ -15,15 +15,17 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
   const [successMsg, setSuccessMsg] = useState("");
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
-  const handleInputNotes = (e) => {
+  const handleInputNotes = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setMyNotes({ ...myNotes, [e.target.name]: e.target.value });
   };
-  const handleS32 = (e) => {
+  const handleS32 = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setMyNotes({ ...myNotes, s32: !myNotes.s32 });
   };
 
-  const handleSaveNotes = (e) => {
+  const handleSaveNotes = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     onSaveNotes(myNotes);
     setTimeout(() => {
@@ -35,7 +37,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
     }, 1000);
   };
 
-  const handleSubmitDelete = (e) => {
+  const handleSubmitDelete = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     //  add confirmation msg 'are you sure..?' later
     handleDeleteHouse(house.id);
@@ -57,7 +59,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 name="tram"
                 value={myNotes.tram}
                 type="text"
-                maxLength="30"
+                maxLength={30}
                 placeholder="Travel time, tram#"
                 title="Travel time, tram#"
                 onChange={handleInputNotes}
@@ -74,7 +76,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 name="train"
                 value={myNotes.train}
                 type="text"
-                maxLength="30"
+                maxLength={30}
                 placeholder="Travel time, station, railway"
                 title="Travel time, station, railway"
                 onChange={handleInputNotes}
@@ -93,7 +95,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 name="balcony"
                 value={myNotes.balcony}
                 type="text"
-                maxLength="50"
+                maxLength={50}
                 placeholder="Balcony: North-facing..."
                 title="Balcony: North-facing..."
                 onChange={handleInputNotes}
@@ -110,7 +112,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 name="supermarket"
                 value={myNotes.supermarket}
                 type="text"
-                maxLength="80"
+                maxLength={80}
                 placeholder="Supermarket, travel time"
                 title="Supermarket, travel time"
                 onChange={handleInputNotes}
@@ -170,8 +172,8 @@ function ImportantNotes({ handleInputNotes, myNotes }) {
       <textarea
         name="importantComments"
         value={myNotes.importantComments}
-        maxLength="120"
-        rows="3"
+        maxLength={120}
+        rows={3}
         placeholder="Important points"
         className="important-note"
         onChange={handleInputNotes}
@@ -191,8 +193,8 @@ function OtherNotes({ handleInputNotes, myNotes }) {
       <textarea
         name="comments"
         value={myNotes.comments}
-        maxLength="200"
-        rows="3"
+        maxLength={200}
+        rows={3}
         placeholder="Other things.."
         className="other-note"
         onChange={handleInputNotes}

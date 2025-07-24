@@ -7,7 +7,7 @@ export default function DomainScraperUrlForm({
   errorMsg,
 }) {
   return (
-    <form type="submit" className="urls-to-add">
+    <form className="urls-to-add" onSubmit={handleAddUrls}>
       <input
         type="url"
         placeholder="Add URL"
@@ -17,7 +17,7 @@ export default function DomainScraperUrlForm({
         className="url"
         required
       />
-      <button type="submit" id="get-house-button" onClick={handleAddUrls}>
+      <button type="submit" id="get-house-button">
         Get a new house
       </button>
       <span id="error-message" role="alert">

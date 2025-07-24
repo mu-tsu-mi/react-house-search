@@ -2,7 +2,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 
 // click on the button to enable cors anywhere : https://cors-anywhere.herokuapp.com/corsdemo
-export const fetchNewHousesFromDomain = async (urls) => {
+export const fetchNewHousesFromDomain = async (urls: string[]) => {
   // Get new houses from Domain via backend
   // const getNewHouses = async () => {
   //   const responses = await Promise.all(
@@ -48,10 +48,10 @@ export const fetchNewHousesFromDomain = async (urls) => {
         tram: "",
         train: "",
         balcony: "",
-        supermarket: [],
+        supermarket: "",
         s32: false,
-        importantComments: [],
-        comments: [],
+        importantComments: "",
+        comments: "",
         preference: null,
       };
       return {
