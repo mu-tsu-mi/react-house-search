@@ -6,17 +6,19 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^1.9.0",
     "cheerio": "^1.0.0",
     "jmespath": "^0.16.0",
+    "jsdom": "^26.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "eslintConfig": {
     "extends": [
@@ -38,9 +40,12 @@
   },
   "proxy": "http://localhost:3001",
   "devDependencies": {
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react-swc": "^3.11.0",
-    "vite": "^7.0.5"
+    "@vitest/ui": "^3.2.4",
+    "vite": "^7.0.5",
+    "vitest": "^3.2.4"
   }
 }
