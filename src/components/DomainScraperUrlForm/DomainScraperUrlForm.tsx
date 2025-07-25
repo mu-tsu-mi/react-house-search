@@ -7,7 +7,7 @@ export default function DomainScraperUrlForm({
   errorMsg,
 }) {
   return (
-    <form className="urls-to-add" onSubmit={handleAddUrls}>
+    <form className="urls-to-add" onSubmit={handleAddUrls} noValidate>
       <input
         type="url"
         placeholder="Add URL"
