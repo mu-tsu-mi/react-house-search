@@ -79,8 +79,12 @@ export default function App() {
 
   // Load from Domain
   const getHouseFromDomain = useCallback(() => {
+    setErrorMsg("");
+
     const getHouses = async () => {
       const parsedHouses = await fetchNewHousesFromDomain(urls);
+      // cleans out previous urls (so that previous ones won't show up in error msg)
+      urls.length = 0;
 
       // check duplication compared with the houses in local storage
       const alreadyInLocalStorage: House[] = parsedHouses.filter((parsedH) =>
@@ -161,6 +165,7 @@ export default function App() {
 
   const handleUrlInput = (e: ChangeEvent<HTMLInputElement>) => {
     setNewUrl(e.target.value);
+    setErrorMsg("");
   };
 
   return (
