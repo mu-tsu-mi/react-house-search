@@ -15,6 +15,7 @@ export default function DomainScraperUrlForm({
         pattern=".*\.domain\.com\.au.*"
         onChange={handleUrlInput}
         className="url"
+        id="domain-url-form"
         required
       />
       <button type="submit" id="get-house-button">
