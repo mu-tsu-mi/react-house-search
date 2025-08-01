@@ -59,6 +59,7 @@ export default function UserNotes({ house, onSaveNotes, handleDeleteHouse }) {
                 name="tram"
                 value={myNotes.tram}
                 type="text"
+                id="tram-input"
                 maxLength={30}
                 placeholder="Travel time, tram#"
                 title="Travel time, tram#"
