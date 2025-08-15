@@ -11,10 +11,6 @@ const mockHouses = Array.from(
   ])
 );
 
-const mockHouse = Array.from(
-  new Map([[1, { id: 1, address: "123 Main St", userNotes: {} }]])
-);
-
 describe("App", () => {
   describe("with many houses", () => {
     beforeEach(() => {
@@ -28,20 +24,23 @@ describe("App", () => {
     });
   });
 
-  describe("with one house", () => {
-    beforeEach(() => {
-      localStorage.setItem("houses", JSON.stringify(mockHouse));
-      render(<App />);
-    });
+  // Show error message when an invalid url is submitted
+  describe("App", () => {
+    describe("an invalid url is entered", () => {
+      it("displays error message", async () => {
+        render(<App />);
 
-    it("can edit user notes of a house", async () => {
-      // find the tram input and enter some text
-      const tramInput = screen.getByRole("textbox", { name: /tram/i });
-      await userEvent.type(tramInput, "tram 5mins walk");
+        const invalidUrl = "http://www.google.com/";
+        const urlInput = screen.getByPlaceholderText(/Add URL/i);
+        await userEvent.type(urlInput, invalidUrl);
 
-      // click save button
+        const button = screen.getByRole("button", { name: /Get a new house/i });
+        await userEvent.click(button);
 
-      // check localStorage  usinglocalStorage.getItem has an updated userNotes on the house
+        expect(
+          screen.getByText("URL must be a Domain property page")
+        ).toBeVisible();
+      });
     });
   });
 });
